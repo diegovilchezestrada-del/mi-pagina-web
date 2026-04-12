@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+
+<body>
+
+<h2 id="titulo">Login</h2>
+
+<input id="nombre" placeholder="Nombre" style="display:none;"><br>
+<input id="correo" placeholder="Correo"><br>
+<input id="pass" type="password" placeholder="Contraseña"><br>
+
+<button onclick="accion()">Entrar</button>
+
+<p onclick="cambiarModo()">Cambiar modo</p>
+
+<script>
+
+let modo="login";
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+function cambiarModo(){
+    modo = modo==="login"?"registro":"login";
+
+    document.getElementById("nombre").style.display =
+        modo==="registro"?"block":"none";
+}
+
+function accion(){
+    const nombre = document.getElementById("nombre").value;
+    const correo = document.getElementById("correo").value;
+    const pass = document.getElementById("pass").value;
+
+    if(modo==="registro"){
+        usuarios.push({nombre, correo, pass});
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        alert("Registrado");
+    }
+
+    if(modo==="login"){
+        const user = usuarios.find(u=>u.correo===correo && u.pass===pass);
+
+        if(user){
+            localStorage.setItem("usuarioActivo", user.nombre);
+            window.location.href="index.html";
+        } else {
+            alert("Error");
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>

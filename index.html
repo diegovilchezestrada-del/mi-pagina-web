@@ -1,295 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portafolio Académico</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial;
-    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
-    color: white;
-}
-
-/* NAVBAR */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: rgba(0,0,0,0.6);
-}
-
-.menu a {
-    margin-left: 20px;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-}
-
-/* INICIO */
-.container {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:90vh;
-    text-align:center;
-}
-
-.titulo {
-    font-size:50px;
-    color:#00eaff;
-}
-
-/* BOTONES */
-.btn {
-    background:#00eaff;
-    color:black;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-/* LAYOUT */
-.layout {
-    display:flex;
-    min-height:80vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width:220px;
-    background:#001f3f;
-    padding:20px;
-}
-
-.sidebar button {
-    width:100%;
-    margin:5px 0;
-    padding:10px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-/* CONTENT */
-.content {
-    flex:1;
-    padding:30px;
-    background:#f5f7fa;
-    color:black;
-}
-
-/* SEMANAS */
-.semana {
-    background:white;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:10px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Académico - Base de Datos II</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-
 <body>
 
-<div class="topbar">
-    <div>Portafolio Académico</div>
-    <div class="menu">
-        <a onclick="inicio()">Inicio</a>
-        <a onclick="verTrabajos()">Unidades</a>
-        <a onclick="irLogin()">Login</a>
-        <a onclick="cerrarSesion()">Salir</a>
-    </div>
-</div>
+<header class="navbar">
+    <h2>Portafolio Académico</h2>
+    <nav>
+        <a href="#" class="activo">Inicio</a>
+        <a href="unidades.html">Unidades</a>
+        <a href="login.html">Login</a>
+        <a href="#">Salir</a>
+    </nav>
+</header>
 
-<div id="contenido" class="container">
-
-    <h1 class="titulo">BASE DE DATOS II</h1>
-    <h2>Vilchez Estrada Diego Michael</h2>
-
-    <p>Curso de bases de datos: SQL, diseño y gestión.</p>
-
-    <button class="btn" onclick="verTrabajos()">Ver Trabajos</button>
-
-</div>
-
-<script>
-
-// INICIO
-function inicio(){
-    location.reload();
-}
-
-// UNIDADES
-function verTrabajos(){
-
-    document.getElementById("contenido").innerHTML = `
-    <div class="layout">
-
-        <div class="sidebar">
-            <h2>Unidades</h2>
-
-            <button onclick="mostrarUnidad(1)">Unidad 01</button>
-            <button onclick="mostrarUnidad(2)">Unidad 02</button>
-            <button onclick="mostrarUnidad(3)">Unidad 03</button>
-            <button onclick="mostrarUnidad(4)">Unidad 04</button>
-        </div>
-
-        <div class="content" id="contenidoUnidad">
-            <h2>Selecciona una unidad</h2>
-        </div>
-
-    </div>
-    `;
-}
-
-// MOSTRAR UNIDAD
-function mostrarUnidad(num){
-
-    let html = `<h2>Unidad 0${num}</h2>`;
-
-    for(let i=1;i<=4;i++){
-
-        html += `
-        <div class="semana">
-            <h3>Semana 0${i}</h3>
-
-            <input type="file" onchange="subirArchivo(event,'${num}-${i}')">
-
-            <div id="archivos-${num}-${i}"></div>
-        </div>
-        `;
-    }
-
-    document.getElementById("contenidoUnidad").innerHTML = html;
-
-    for(let i=1;i<=4;i++){
-        mostrarArchivos(num+"-"+i);
-    }
-}
-
-// SUBIR ARCHIVO (CORREGIDO)
-function subirArchivo(event, clave){
-
-    const usuario = localStorage.getItem("usuarioActivo");
-
-    if(!usuario){
-        alert("Debes iniciar sesión");
-        return;
-    }
-
-    const file = event.target.files[0];
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(){
-
-        let archivos = JSON.parse(localStorage.getItem(clave));
-
-        if(!archivos){
-            archivos = [];
-        }
-
-        archivos.push({
-            nombre:file.name,
-            data:reader.result
-        });
-
-        localStorage.setItem(clave, JSON.stringify(archivos));
-
-        mostrarArchivos(clave);
-    }
-
-    reader.readAsDataURL(file);
-}
-
-// MOSTRAR ARCHIVOS (CORREGIDO)
-function mostrarArchivos(clave){
-
-    let contenedor = document.getElementById("archivos-"+clave);
-
-    if(!contenedor) return;
-
-    let archivos = JSON.parse(localStorage.getItem(clave));
-
-    if(!archivos){
-        contenedor.innerHTML = "<p>No hay archivos</p>";
-        return;
-    }
-
-    contenedor.innerHTML = "";
-
-    archivos.forEach(a=>{
-        contenedor.innerHTML += `
-            <p><a href="${a.data}" target="_blank">${a.nombre}</a></p>
-        `;
-    });
-}
-
-// LOGIN
-let modoRegistro=false;
-
-function irLogin(){
-
-    document.getElementById("contenido").innerHTML = `
-    <div style="display:flex;justify-content:center;align-items:center;height:80vh;">
-
-        <div style="background:white;color:black;padding:30px;border-radius:10px;width:300px;">
-
-            <h2 id="tituloLogin">Login</h2>
-
-            <input id="email" placeholder="Correo" style="width:100%;padding:10px;margin:10px 0;">
-            <input id="password" type="password" placeholder="Contraseña" style="width:100%;padding:10px;margin:10px 0;">
-
-            <button onclick="login()" class="btn" style="width:100%;">Entrar</button>
-
-            <p>
-                <span id="textoToggle">¿No tienes cuenta?</span>
-                <a onclick="toggleModo()" style="cursor:pointer;color:blue;">Registrarse</a>
-            </p>
-
+<section class="hero">
+    <div class="hero-content">
+        <h1>BASE DE DATOS II</h1>
+        <h2>Vilchez Estrada Diego Michael</h2>
+        <p class="descripcion">
+            Curso avanzado de Bases de Datos: SQL, Modelado, Diseño y Gestión de Sistemas.
+        </p>
+        
+        <div class="hero-buttons">
+            <a href="unidades.html" class="btn-primary">
+                <i class="fas fa-book"></i> Ver Unidades
+            </a>
         </div>
     </div>
-    `;
-}
-
-function toggleModo(){
-    modoRegistro=!modoRegistro;
-
-    document.getElementById("tituloLogin").innerText = modoRegistro ? "Registro" : "Login";
-    document.querySelector(".btn").innerText = modoRegistro ? "Crear Cuenta" : "Entrar";
-}
-
-function login(){
-
-    const email=document.getElementById("email").value;
-    const pass=document.getElementById("password").value;
-
-    if(modoRegistro){
-        localStorage.setItem(email,pass);
-        alert("Cuenta creada");
-    }else{
-        if(localStorage.getItem(email)==pass){
-            localStorage.setItem("usuarioActivo",email);
-            alert("Bienvenido");
-            verTrabajos();
-        }else{
-            alert("Datos incorrectos");
-        }
-    }
-}
-
-// SALIR
-function cerrarSesion(){
-    localStorage.removeItem("usuarioActivo");
-    alert("Sesión cerrada");
-}
-
-</script>
+</section>
 
 </body>
 </html>

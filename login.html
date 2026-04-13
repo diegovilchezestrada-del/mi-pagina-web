@@ -1,57 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portafolio Académico</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
+<body class="login-body">
 
-<body>
+    <!-- Botón Atrás -->
+    <a href="index.html" class="btn-back">
+        <i class="fas fa-arrow-left"></i>
+        <span>Volver al Inicio</span>
+    </a>
 
-<h2 id="titulo">Login</h2>
+    <div class="login-container">
+        <!-- Panel izquierdo (imagen) -->
+        <div class="login-left">
+            <div class="overlay"></div>
+            <div class="login-left-content">
+                <h1>Portafolio Académico</h1>
+                <p>Bienvenido de nuevo</p>
+                <p class="subtitle">Accede a tus unidades y entregas</p>
+            </div>
+        </div>
 
-<input id="nombre" placeholder="Nombre" style="display:none;"><br>
-<input id="correo" placeholder="Correo"><br>
-<input id="pass" type="password" placeholder="Contraseña"><br>
+        <!-- Formulario -->
+        <div class="login-right">
+            <div class="login-form-card">
+                <h2>Iniciar Sesión</h2>
+                
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Usuario o Correo" required>
+                    </div>
 
-<button onclick="accion()">Entrar</button>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                    </div>
 
-<p onclick="cambiarModo()">Cambiar modo</p>
+                    <div class="options">
+                        <label><input type="checkbox" checked> Recordarme</label>
+                        <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">Ingresar</button>
+                </form>
+
+                <div class="divider"><span>O</span></div>
+
+                <button class="btn-google">
+                    <i class="fab fa-google"></i> Continuar con Google
+                </button>
+
+                <p class="register-link">
+                    ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
+                </p>
+            </div>
+        </div>
+    </div>
 
 <script>
-
-let modo="login";
-let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-function cambiarModo(){
-    modo = modo==="login"?"registro":"login";
-
-    document.getElementById("nombre").style.display =
-        modo==="registro"?"block":"none";
-}
-
-function accion(){
-    const nombre = document.getElementById("nombre").value;
-    const correo = document.getElementById("correo").value;
-    const pass = document.getElementById("pass").value;
-
-    if(modo==="registro"){
-        usuarios.push({nombre, correo, pass});
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        alert("Registrado");
+// Mostrar / Ocultar contraseña
+document.querySelector('.toggle-password').addEventListener('click', function () {
+    const pwd = document.getElementById('password');
+    const icon = this.querySelector('i');
+    if (pwd.type === "password") {
+        pwd.type = "text";
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        pwd.type = "password";
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
     }
+});
 
-    if(modo==="login"){
-        const user = usuarios.find(u=>u.correo===correo && u.pass===pass);
-
-        if(user){
-            localStorage.setItem("usuarioActivo", user.nombre);
-            window.location.href="index.html";
-        } else {
-            alert("Error");
-        }
-    }
-}
-
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('¡Inicio de sesión simulado exitoso! ✅');
+    // window.location.href = "unidades.html";
+});
 </script>
 
 </body>

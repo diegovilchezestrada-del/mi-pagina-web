@@ -1,0 +1,595 @@
+/* ====================== RESET & GENERAL ====================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a2e, #1a1a5e, #00d4ff);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ====================== NAVBAR ====================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(10, 10, 46, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar h2 {
+    font-weight: bold;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.navbar nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.navbar nav a:hover,
+.navbar nav a.activo {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff;
+}
+
+.navbar nav a.activo {
+    border-bottom: 2px solid #00ffff;
+    padding-bottom: 5px;
+}
+
+/* ====================== PÁGINA INICIO (HERO + TRABAJOS) ====================== */
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0, 212, 255, 0.15), transparent 70%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 4.2rem;
+    font-weight: bold;
+    color: #00ffff;
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+    margin-bottom: 15px;
+}
+
+.hero h2 {
+    font-size: 2.1rem;
+    margin-bottom: 20px;
+    opacity: 0.95;
+}
+
+.descripcion {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    color: #a0f0ff;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.4s;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #00ffff, #0088ff);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 2px solid rgba(0, 212, 255, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 212, 255, 0.25);
+    transform: translateY(-5px);
+}
+
+/* Trabajos */
+.trabajos {
+    padding: 100px 40px;
+    text-align: center;
+    background: rgba(10, 10, 46, 0.6);
+}
+
+.trabajos h2 {
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    color: #00ffff;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 35px 25px;
+    border-radius: 20px;
+    width: 320px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    transition: all 0.4s;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.25);
+}
+
+.card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #00ffff;
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #a0f0ff;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.card-link {
+    color: #00ffff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* ====================== PÁGINA UNIDADES ====================== */
+.contenedor-unidades {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.menu-unidades {
+    width: 280px;
+    background: rgba(10, 10, 46, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 30px 20px;
+    border-right: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.menu-unidades h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00ffff;
+    font-size: 1.6rem;
+}
+
+.btn-unidad {
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(8px);
+}
+
+.btn-unidad:hover {
+    background: rgba(0, 212, 255, 0.3);
+    transform: translateX(8px);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+.contenido-unidades {
+    flex: 1;
+    padding: 50px 60px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+}
+
+.contenido-unidades h1 {
+    font-size: 2.8rem;
+    margin-bottom: 40px;
+    color: #00ffff;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Tarjetas de semanas */
+.semana {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.semana:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 212, 255, 0.25);
+}
+
+.semana h3 {
+    color: #00ffff;
+    margin-bottom: 18px;
+    font-size: 1.45rem;
+}
+
+.estado-archivo {
+    color: #a0f0ff;
+    font-size: 0.95rem;
+}
+
+/* Botón de Semana */
+.btn-semana {
+    display: inline-block;
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(45deg, #00ffff, #0088ff);
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.08rem;
+    border-radius: 12px;
+    text-align: center;
+    margin: 15px 0 12px 0;
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+    transition: all 0.3s;
+}
+
+.btn-semana:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.6);
+}
+
+/* ====================== PÁGINA DE INFORME (unidad01semana01.html) ====================== */
+.contenido-entrega {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 30px;
+}
+
+.contenido-entrega .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ffff;
+    text-decoration: none;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.contenido-entrega h1 {
+    color: #00ffff;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.8rem;
+}
+
+.informe-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 50px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    line-height: 1.8;
+}
+
+.informe-container h2 {
+    color: #00ffff;
+    margin: 35px 0 20px 0;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+    padding-bottom: 12px;
+}
+
+.informe-container h3,
+.informe-container h4 {
+    color: #a0f0ff;
+    margin: 25px 0 12px 0;
+}
+
+.informe-container ul {
+    margin-left: 25px;
+    margin-bottom: 20px;
+}
+
+.informe-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.informe-container th,
+.informe-container td {
+    padding: 14px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    text-align: center;
+}
+
+.informe-container th {
+    background: rgba(0, 212, 255, 0.25);
+    color: #00ffff;
+}
+
+/* ====================== PÁGINA LOGIN ====================== */
+.login-body {
+    background: linear-gradient(135deg, #0a0a2e, #1a1a5e, #00d4ff);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.login-container {
+    display: flex;
+    width: 950px;
+    max-width: 95%;
+    height: 540px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.login-left {
+    flex: 1;
+    background: url('https://source.unsplash.com/random/600x800/?university,study,books') center/cover no-repeat;
+    position: relative;
+}
+
+.login-left .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(10, 10, 46, 0.85));
+}
+
+.login-left-content {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    color: white;
+    z-index: 2;
+}
+
+.login-left-content h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+}
+
+.login-left-content p {
+    opacity: 0.9;
+}
+
+.login-right {
+    flex: 1.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+}
+
+.login-form-card {
+    width: 100%;
+    max-width: 360px;
+}
+
+.login-form-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.9rem;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00d4ff;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 14px 14px 48px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.15);
+    outline: none;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00d4ff, #0088ff);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+}
+
+/* Botón Atrás (usado en login y en páginas de informe) */
+.btn-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+    z-index: 200;
+}
+
+.btn-back:hover {
+    background: rgba(0, 212, 255, 0.3);
+    transform: translateX(-5px);
+}
+
+/* ====================== FOOTER ====================== */
+footer {
+    text-align: center;
+    padding: 25px;
+    background: rgba(10, 10, 46, 0.9);
+    backdrop-filter: blur(10px);
+    margin-top: auto;
+}
+
+/* ====================== RESPONSIVE ====================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .contenedor-unidades {
+        flex-direction: column;
+    }
+
+    .menu-unidades {
+        width: 100%;
+    }
+
+    .contenido-unidades {
+        padding: 30px 20px;
+    }
+
+    .hero h1 { font-size: 3rem; }
+    .hero h2 { font-size: 1.8rem; }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        width: 95%;
+    }
+
+    .login-left {
+        display: none;
+    }
+
+    .trabajos {
+        padding: 80px 20px;
+    }
+
+    .contenido-entrega {
+        padding: 0 20px;
+    }
+}

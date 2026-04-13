@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidades - Portafolio Académico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="navbar">
+    <h2>Portafolio Académico</h2>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="#" class="activo">Unidades</a>
+        <a href="login.html">Login</a>
+        <a href="#" id="btnSalir">Salir</a>
+    </nav>
+</header>
+
+<div class="contenedor-unidades">
+
+    <!-- MENÚ -->
+    <aside class="menu-unidades">
+        <h2>Unidades</h2>
+        <button onclick="mostrarUnidad(1)" class="btn-unidad">Unidad 01</button>
+        <button onclick="mostrarUnidad(2)" class="btn-unidad">Unidad 02</button>
+        <button onclick="mostrarUnidad(3)" class="btn-unidad">Unidad 03</button>
+        <button onclick="mostrarUnidad(4)" class="btn-unidad">Unidad 04</button>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="contenido-unidades">
+        <h1 id="tituloUnidad">Unidad 01</h1>
+        <div id="contenidoSemanas"></div>
+    </main>
+</div>
+
+<script>
+function mostrarUnidad(num) {
+    document.getElementById("tituloUnidad").innerText = 
+        `Unidad ${num.toString().padStart(2, '0')}`;
+    generarSemanas(num);
+}
+
+function generarSemanas(unidadNum) {
+    const contenedor = document.getElementById("contenidoSemanas");
+    contenedor.innerHTML = "";
+
+    for (let i = 1; i <= 4; i++) {
+        contenedor.innerHTML += `
+            <div class="semana">
+                <h3>Semana ${i.toString().padStart(2, '0')}</h3>
+                <a href="unidad${unidadNum.toString().padStart(2,'0')}semana${i.toString().padStart(2,'0')}.html" class="btn-semana">
+                    📘 Ver Semana ${i.toString().padStart(2, '0')}
+                </a>
+                <p class="estado-archivo">
+                    Informe Técnico - Arquitecturas de Bases de Datos
+                </p>
+            </div>
+        `;
+    }
+}
+
+// BOTÓN SALIR
+document.getElementById("btnSalir").addEventListener("click", function() {
+    localStorage.removeItem("usuario");
+    alert("Sesión cerrada");
+    window.location.href = "login.html";
+});
+
+// Cargar por defecto
+window.onload = () => mostrarUnidad(1);
+</script>
+
+</body>
+</html>

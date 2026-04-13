@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad 01 - Semana 01</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="navbar">
+    <h2>Portafolio Académico</h2>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="unidades.html">Unidades</a>
+        <a href="login.html">Login</a>
+    </nav>
+</header>
+
+<div class="contenido-entrega">
+    <a href="unidades.html" class="btn-back">← Volver a Unidades</a>
+
+    <h1>Unidad 01 - Semana 01</h1>
+
+    <div class="informe-container">
+
+        <h2>📘 Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos</h2>
+
+        <section>
+            <h3>1. Introducción</h3>
+            <p>
+                Las arquitecturas de bases de datos definen cómo se organizan, almacenan, acceden 
+                y gestionan los datos en un sistema. En la actualidad, con el crecimiento de 
+                aplicaciones web y móviles en entornos educativos, es fundamental elegir la 
+                arquitectura adecuada considerando escalabilidad, disponibilidad, seguridad y costo.
+            </p>
+            <p>
+                En este informe se analizan tres arquitecturas principales: 
+                <strong>Centralizada, Cliente-Servidor y Distribuida</strong>.
+            </p>
+        </section>
+
+        <section>
+            <h3>2. Definición y Características</h3>
+
+            <h4>🔹 Arquitectura Centralizada</h4>
+            <p>Todos los datos residen en un único servidor.</p>
+            <ul>
+                <li>Un solo punto de control.</li>
+                <li>Fácil administración.</li>
+                <li>Alta consistencia de datos.</li>
+                <li>Dependencia total del servidor.</li>
+            </ul>
+
+            <h4>🔹 Arquitectura Cliente-Servidor</h4>
+            <p>Los clientes solicitan servicios a un servidor central.</p>
+            <ul>
+                <li>Separación entre cliente y servidor.</li>
+                <li>Mayor escalabilidad.</li>
+                <li>Uso en aplicaciones web modernas.</li>
+                <li>Control de seguridad centralizado.</li>
+            </ul>
+
+            <h4>🔹 Arquitectura Distribuida</h4>
+            <p>Los datos se almacenan en múltiples nodos conectados.</p>
+            <ul>
+                <li>Alta disponibilidad.</li>
+                <li>Escalabilidad horizontal.</li>
+                <li>Tolerancia a fallos.</li>
+                <li>Mayor complejidad.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>3. Ventajas y Desventajas</h3>
+
+            <table class="comparacion">
+                <thead>
+                    <tr>
+                        <th>Arquitectura</th>
+                        <th>Ventajas</th>
+                        <th>Desventajas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Centralizada</td>
+                        <td>Fácil de administrar, bajo costo</td>
+                        <td>Punto único de fallo</td>
+                    </tr>
+                    <tr>
+                        <td>Cliente-Servidor</td>
+                        <td>Buen rendimiento, escalable</td>
+                        <td>Dependencia del servidor</td>
+                    </tr>
+                    <tr>
+                        <td>Distribuida</td>
+                        <td>Alta disponibilidad, escalable</td>
+                        <td>Complejidad y costo alto</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h3>4. Ejemplos Actuales</h3>
+            <ul>
+                <li><strong>Centralizada:</strong> SQL Server en servidor local.</li>
+                <li><strong>Cliente-Servidor:</strong> MySQL, PostgreSQL con apps web.</li>
+                <li><strong>Distribuida:</strong> Cassandra, Google Spanner, CockroachDB.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>5. Recomendación</h3>
+            <p>
+                Se recomienda la arquitectura <strong>Cliente-Servidor</strong> para sistemas 
+                académicos debido a su equilibrio entre rendimiento, seguridad y facilidad 
+                de implementación.
+            </p>
+        </section>
+
+        <section>
+            <h3>6. Conclusión</h3>
+            <p>
+                Cada arquitectura responde a necesidades distintas. La centralizada es simple, 
+                la cliente-servidor es equilibrada y la distribuida es altamente escalable. 
+                Para entornos educativos, la mejor opción es cliente-servidor.
+            </p>
+        </section>
+
+        <section>
+            <h3>7. Referencias</h3>
+            <ul>
+                <li>PowerData. Base de datos distribuida.</li>
+                <li>IBM. Distributed Database Architecture.</li>
+                <li>Nutanix. Sistemas de gestión de BD.</li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<script>
+// Animación suave
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+        document.body.style.transition = "0.5s";
+        document.body.style.opacity = "1";
+    }, 100);
+});
+</script>
+
+</body>
+</html>

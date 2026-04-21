@@ -5,41 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unidades - Portafolio Académico</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
 
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAVBAR -->
 <header class="navbar">
-    <h2>Portafolio Académico</h2>
-    <nav>
+    <div class="navbar-brand">
+        <div class="brand-logo">
+            <i class="fas fa-database"></i>
+        </div>
+        <div class="brand-text">
+            <span class="brand-title">Universidad Peruana Los Andes</span>
+            <span class="brand-sub">Portafolio · Base de Datos II</span>
+        </div>
+    </div>
+    <nav class="navbar-links">
         <a href="index.html">Inicio</a>
-        <a href="#" class="activo">Unidades</a>
-        <a href="login.html">Login</a>
-        <a href="#" id="btnSalir">Salir</a>
+        <a href="#" class="activo">Unidad I</a>
+        <a href="#" onclick="mostrarUnidad(2)">Unidad II</a>
+        <a href="#" onclick="mostrarUnidad(3)">Unidad III</a>
+        <a href="#" onclick="mostrarUnidad(4)">Unidad IV</a>
+        <a href="login.html">Contacto</a>
     </nav>
+    <div class="navbar-actions">
+        <a href="login.html" class="btn-ingresar"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
+        <div class="avatar-circle">V</div>
+    </div>
 </header>
 
 <div class="contenedor-unidades">
 
-    <!-- MENÚ -->
+    <!-- MENÚ LATERAL -->
     <aside class="menu-unidades">
-        <h2>Unidades</h2>
-        <button onclick="mostrarUnidad(1)" class="btn-unidad">Unidad 01</button>
-        <button onclick="mostrarUnidad(2)" class="btn-unidad">Unidad 02</button>
-        <button onclick="mostrarUnidad(3)" class="btn-unidad">Unidad 03</button>
-        <button onclick="mostrarUnidad(4)" class="btn-unidad">Unidad 04</button>
+        <h2><i class="fas fa-book-open"></i> Unidades</h2>
+        <button onclick="mostrarUnidad(1)" class="btn-unidad" id="btn-u1">
+            <i class="fas fa-circle-dot"></i> Unidad 01
+        </button>
+        <button onclick="mostrarUnidad(2)" class="btn-unidad" id="btn-u2">
+            <i class="fas fa-circle-dot"></i> Unidad 02
+        </button>
+        <button onclick="mostrarUnidad(3)" class="btn-unidad" id="btn-u3">
+            <i class="fas fa-circle-dot"></i> Unidad 03
+        </button>
+        <button onclick="mostrarUnidad(4)" class="btn-unidad" id="btn-u4">
+            <i class="fas fa-circle-dot"></i> Unidad 04
+        </button>
+
+        <div class="menu-footer">
+            <button onclick="cerrarSesion()" class="btn-salir">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
+        </div>
     </aside>
 
-    <!-- CONTENIDO -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="contenido-unidades">
         <h1 id="tituloUnidad">Unidad 01</h1>
         <div id="contenidoSemanas"></div>
+
+        <!-- VISOR DE PDF -->
+        <div id="visorPDF" class="visor-pdf-container" style="display:none;">
+            <div class="visor-header">
+                <div class="visor-titulo">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="visorTitulo">Informe Técnico</span>
+                </div>
+                <div class="visor-acciones">
+                    <a id="btnDescargar" href="#" download class="btn-visor-accion">
+                        <i class="fas fa-download"></i> Descargar
+                    </a>
+                    <button onclick="cerrarVisor()" class="btn-visor-cerrar">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+            <iframe id="iframePDF" src="" class="visor-iframe"></iframe>
+        </div>
     </main>
 </div>
 
 <script>
+// Fondo animado
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+function createParticle() {
+    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+0.5,
+             dx: (Math.random()-0.5)*0.4, dy: (Math.random()-0.5)*0.4, alpha: Math.random()*0.5+0.1 };
+}
+for (let i = 0; i < 120; i++) particles.push(createParticle());
+function drawParticles() {
+    ctx.clearRect(0,0,W,H);
+    for (let p of particles) {
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(100,220,255,${p.alpha})`; ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x<0||p.x>W) p.dx*=-1;
+        if(p.y<0||p.y>H) p.dy*=-1;
+    }
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+        let d=Math.hypot(particles[i].x-particles[j].x,particles[i].y-particles[j].y);
+        if(d<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(100,220,255,${0.08*(1-d/100)})`;ctx.lineWidth=0.5;ctx.stroke();}
+    }
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// PDFs disponibles
+const pdfs = {
+    'u1s1': {
+        archivo: 'unidad01semana01.pdf',
+        titulo: 'Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos'
+    },
+    'u1s2': {
+        archivo: 'Analisis_Tecnico.pdf',
+        titulo: 'Análisis Técnico'
+    }
+};
+
+let unidadActual = 1;
+
 function mostrarUnidad(num) {
-    document.getElementById("tituloUnidad").innerText = 
-        `Unidad ${num.toString().padStart(2, '0')}`;
+    unidadActual = num;
+    cerrarVisor();
+
+    for(let i=1;i<=4;i++) {
+        document.getElementById(`btn-u${i}`).classList.remove('activo');
+    }
+    document.getElementById(`btn-u${num}`).classList.add('activo');
+
+    document.getElementById("tituloUnidad").innerText = `Unidad ${num.toString().padStart(2,'0')}`;
     generarSemanas(num);
 }
 
@@ -48,28 +151,60 @@ function generarSemanas(unidadNum) {
     contenedor.innerHTML = "";
 
     for (let i = 1; i <= 4; i++) {
+        const key = `u${unidadNum}s${i}`;
+        const tienePDF = pdfs.hasOwnProperty(key);
+        const semanaStr = i.toString().padStart(2,'0');
+
         contenedor.innerHTML += `
             <div class="semana">
-                <h3>Semana ${i.toString().padStart(2, '0')}</h3>
-                <a href="unidad${unidadNum.toString().padStart(2,'0')}semana${i.toString().padStart(2,'0')}.html" class="btn-semana">
-                    📘 Ver Semana ${i.toString().padStart(2, '0')}
-                </a>
+                <div class="semana-header">
+                    <h3><i class="fas fa-calendar-week"></i> Semana ${semanaStr}</h3>
+                    ${tienePDF 
+                        ? '<span class="badge-disponible"><i class="fas fa-check-circle"></i> Disponible</span>' 
+                        : '<span class="badge-pronto"><i class="fas fa-clock"></i> Próximamente</span>'}
+                </div>
                 <p class="estado-archivo">
-                    Informe Técnico - Arquitecturas de Bases de Datos
+                    <i class="fas fa-file-alt"></i> 
+                    Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos
                 </p>
+                ${tienePDF 
+                    ? `<button onclick="abrirVisor('${key}')" class="btn-semana">
+                            <i class="fas fa-eye"></i> Ver Semana ${semanaStr}
+                       </button>`
+                    : `<button class="btn-semana btn-semana-disabled" disabled>
+                            <i class="fas fa-lock"></i> Sin contenido aún
+                       </button>`
+                }
             </div>
         `;
     }
 }
 
-// BOTÓN SALIR
-document.getElementById("btnSalir").addEventListener("click", function() {
+function abrirVisor(key) {
+    const data = pdfs[key];
+    if (!data) return;
+
+    document.getElementById('visorTitulo').textContent = data.titulo;
+    document.getElementById('iframePDF').src = data.archivo;
+    document.getElementById('btnDescargar').href = data.archivo;
+
+    const visor = document.getElementById('visorPDF');
+    visor.style.display = 'flex';
+    visor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cerrarVisor() {
+    const visor = document.getElementById('visorPDF');
+    visor.style.display = 'none';
+    document.getElementById('iframePDF').src = '';
+}
+
+function cerrarSesion() {
     localStorage.removeItem("usuario");
     alert("Sesión cerrada");
     window.location.href = "login.html";
-});
+}
 
-// Cargar por defecto
 window.onload = () => mostrarUnidad(1);
 </script>
 

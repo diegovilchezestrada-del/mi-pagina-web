@@ -4,68 +4,519 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Portafolio Académico</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #050510;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Canvas fondo */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* Círculos de luz animados */
+        .glow-circle {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: floatGlow 8s ease-in-out infinite;
+            z-index: 0;
+        }
+        .glow-circle.c1 { width: 400px; height: 400px; background: #10b981; top: -100px; left: -100px; animation-delay: 0s; }
+        .glow-circle.c2 { width: 350px; height: 350px; background: #6366f1; bottom: -80px; right: -80px; animation-delay: 3s; }
+        .glow-circle.c3 { width: 250px; height: 250px; background: #00d4ff; top: 50%; left: 50%; animation-delay: 1.5s; }
+
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* Botón atrás */
+        .btn-back {
+            position: fixed;
+            top: 24px; left: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        .btn-back:hover {
+            background: rgba(16,185,129,0.15);
+            border-color: rgba(16,185,129,0.4);
+            color: #10b981;
+            transform: translateX(-4px);
+        }
+
+        /* Contenedor principal */
+        .login-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            width: 960px;
+            max-width: 96%;
+            min-height: 560px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(16,185,129,0.1), 0 0 0 1px rgba(255,255,255,0.07);
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.7s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Panel izquierdo */
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(99,102,241,0.15));
+            border-right: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            border: 1px solid rgba(16,185,129,0.2);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-ring 3s ease-in-out infinite;
+        }
+        .login-left::after {
+            content: '';
+            position: absolute;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 1px solid rgba(99,102,241,0.2);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-ring 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+
+        .left-icon {
+            width: 80px; height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #10b981, #6366f1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 30px rgba(16,185,129,0.4);
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 30px rgba(16,185,129,0.4); }
+            50% { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(16,185,129,0.3); }
+        }
+
+        .login-left h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+            position: relative; z-index: 1;
+        }
+
+        .login-left p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            position: relative; z-index: 1;
+        }
+
+        .login-left .subtitle {
+            color: #10b981;
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+
+        /* Stats decorativos */
+        .left-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .stat-item .lbl {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2px;
+        }
+
+        /* Panel derecho - formulario */
+        .login-right {
+            flex: 1.1;
+            background: rgba(10, 10, 30, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 44px;
+        }
+
+        .login-form-card {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .form-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 32px;
+        }
+
+        /* Input groups */
+        .input-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .input-group i.icon-left {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input::placeholder { color: rgba(255,255,255,0.25); }
+
+        .input-group input:focus {
+            border-color: #10b981;
+            background: rgba(16,185,129,0.08);
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+        }
+
+        .input-group input:focus + .input-line,
+        .input-group:focus-within i.icon-left { color: #10b981; }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255,255,255,0.3);
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        .toggle-password:hover { color: #10b981; }
+
+        /* Opciones */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 0.83rem;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+
+        .options input[type="checkbox"] {
+            accent-color: #10b981;
+            width: 14px; height: 14px;
+        }
+
+        .forgot {
+            color: #10b981;
+            text-decoration: none;
+            font-size: 0.83rem;
+            transition: opacity 0.2s;
+        }
+        .forgot:hover { opacity: 0.7; }
+
+        /* Botón login */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-login:hover::before { left: 100%; }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16,185,129,0.4);
+        }
+
+        .btn-login:active { transform: translateY(0); }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Botón Google */
+        .btn-google {
+            width: 100%;
+            padding: 13px;
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-google i { color: #ea4335; }
+
+        /* Registro */
+        .register-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.83rem;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .register-link a {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .login-left { display: none; }
+            .login-right { padding: 40px 28px; }
+        }
+    </style>
 </head>
-<body class="login-body">
+<body>
 
-    <!-- Botón Atrás -->
-    <a href="index.html" class="btn-back">
-        <i class="fas fa-arrow-left"></i>
-        <span>Volver al Inicio</span>
-    </a>
+<canvas id="bg-canvas"></canvas>
+<div class="glow-circle c1"></div>
+<div class="glow-circle c2"></div>
+<div class="glow-circle c3"></div>
 
-    <div class="login-container">
-        <!-- Panel izquierdo (imagen) -->
-        <div class="login-left">
-            <div class="overlay"></div>
-            <div class="login-left-content">
-                <h1>Portafolio Académico</h1>
-                <p>Bienvenido de nuevo</p>
-                <p class="subtitle">Accede a tus unidades y entregas</p>
-            </div>
+<a href="index.html" class="btn-back">
+    <i class="fas fa-arrow-left"></i> Volver al Inicio
+</a>
+
+<div class="login-wrapper">
+
+    <!-- Panel izquierdo -->
+    <div class="login-left">
+        <div class="left-icon">
+            <i class="fas fa-database"></i>
         </div>
+        <h1>Portafolio Académico</h1>
+        <p>Bienvenido de nuevo</p>
+        <p class="subtitle">Accede a tus unidades y entregas</p>
 
-        <!-- Formulario -->
-        <div class="login-right">
-            <div class="login-form-card">
-                <h2>Iniciar Sesión</h2>
-                
-                <form id="loginForm">
-                    <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" placeholder="Usuario o Correo" required>
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="Contraseña" required>
-                        <span class="toggle-password"><i class="fas fa-eye"></i></span>
-                    </div>
-
-                    <div class="options">
-                        <label><input type="checkbox" checked> Recordarme</label>
-                        <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
-                    </div>
-
-                    <button type="submit" class="btn-login">Ingresar</button>
-                </form>
-
-                <div class="divider"><span>O</span></div>
-
-                <button class="btn-google">
-                    <i class="fab fa-google"></i> Continuar con Google
-                </button>
-
-                <p class="register-link">
-                    ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
-                </p>
+        <div class="left-stats">
+            <div class="stat-item">
+                <div class="num">4</div>
+                <div class="lbl">Unidades</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">16</div>
+                <div class="lbl">Semanas</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">2026</div>
+                <div class="lbl">Ciclo</div>
             </div>
         </div>
     </div>
 
+    <!-- Formulario -->
+    <div class="login-right">
+        <div class="login-form-card">
+            <h2 class="form-title">Iniciar Sesión</h2>
+            <p class="form-subtitle">Ingresa tus credenciales para continuar</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-user icon-left"></i>
+                    <input type="text" id="username" placeholder="Usuario o Correo" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock icon-left"></i>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                    <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                </div>
+
+                <div class="options">
+                    <label><input type="checkbox" checked> Recordarme</label>
+                    <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
+            </form>
+
+            <div class="divider"><span>O</span></div>
+
+            <button class="btn-google">
+                <i class="fab fa-google"></i> Continuar con Google
+            </button>
+
+            <p class="register-link">
+                ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
+            </p>
+        </div>
+    </div>
+</div>
+
 <script>
-// Mostrar / Ocultar contraseña
+// Fondo animado partículas
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+function createParticle() {
+    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+0.3,
+             dx: (Math.random()-0.5)*0.3, dy: (Math.random()-0.5)*0.3, alpha: Math.random()*0.4+0.1 };
+}
+for (let i = 0; i < 100; i++) particles.push(createParticle());
+function draw() {
+    ctx.clearRect(0,0,W,H);
+    for (let p of particles) {
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(16,185,129,${p.alpha})`; ctx.fill();
+        p.x+=p.dx; p.y+=p.dy;
+        if(p.x<0||p.x>W) p.dx*=-1;
+        if(p.y<0||p.y>H) p.dy*=-1;
+    }
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+        let d=Math.hypot(particles[i].x-particles[j].x,particles[i].y-particles[j].y);
+        if(d<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(99,102,241,${0.06*(1-d/120)})`;ctx.lineWidth=0.5;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+}
+draw();
+
+// Toggle password
 document.querySelector('.toggle-password').addEventListener('click', function () {
     const pwd = document.getElementById('password');
     const icon = this.querySelector('i');
@@ -78,10 +529,15 @@ document.querySelector('.toggle-password').addEventListener('click', function ()
     }
 });
 
+// Submit
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    alert('¡Inicio de sesión simulado exitoso! ✅');
-    // window.location.href = "unidades.html";
+    const btn = document.querySelector('.btn-login');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+    btn.disabled = true;
+    setTimeout(() => {
+        window.location.href = "unidades.html";
+    }, 1500);
 });
 </script>
 

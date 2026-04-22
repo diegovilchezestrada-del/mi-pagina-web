@@ -120,15 +120,27 @@ function drawParticles() {
 drawParticles();
 
 // PDFs disponibles
+// Si una semana tiene UN solo PDF → objeto {}
+// Si una semana tiene VARIOS PDFs → array []
 const pdfs = {
     'u1s1': {
         archivo: 'unidad01semana01.pdf',
         titulo: 'Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos'
     },
-    'u1s2': {
-        archivo: 'Analisis_Tecnico.pdf',
-        titulo: 'Análisis Técnico'
-    }
+    'u1s2': [
+        {
+            archivo: 'Analisis_Tecnico.pdf',
+            titulo: 'Análisis Técnico'
+        },
+        {
+            archivo: 'Diagrama.pdf',
+            titulo: 'Diagrama'
+        },
+        {
+            archivo: 'Manual de Instalacion SQL.pdf',
+            titulo: 'Manual de Instalación SQL'
+        }
+    ]
 };
 
 let unidadActual = 1;
@@ -152,8 +164,36 @@ function generarSemanas(unidadNum) {
 
     for (let i = 1; i <= 4; i++) {
         const key = `u${unidadNum}s${i}`;
-        const tienePDF = pdfs.hasOwnProperty(key);
+        const data = pdfs[key];
+        const tienePDF = data !== undefined;
+        const esArray = Array.isArray(data);
         const semanaStr = i.toString().padStart(2,'0');
+
+        // Construir botones según si hay uno o varios PDFs
+        let botonesHTML = '';
+        if (tienePDF) {
+            if (esArray) {
+                // Varios PDFs: un botón por cada uno
+                botonesHTML = data.map((pdf, idx) => `
+                    <button onclick="abrirVisor('${key}', ${idx})" class="btn-semana" style="margin-bottom:6px;">
+                        <i class="fas fa-eye"></i> ${pdf.titulo}
+                    </button>
+                `).join('');
+            } else {
+                // Un solo PDF
+                botonesHTML = `
+                    <button onclick="abrirVisor('${key}', -1)" class="btn-semana">
+                        <i class="fas fa-eye"></i> Ver Semana ${semanaStr}
+                    </button>
+                `;
+            }
+        } else {
+            botonesHTML = `
+                <button class="btn-semana btn-semana-disabled" disabled>
+                    <i class="fas fa-lock"></i> Sin contenido aún
+                </button>
+            `;
+        }
 
         contenedor.innerHTML += `
             <div class="semana">
@@ -165,28 +205,30 @@ function generarSemanas(unidadNum) {
                 </div>
                 <p class="estado-archivo">
                     <i class="fas fa-file-alt"></i> 
-                    Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos
+                    ${tienePDF 
+                        ? (esArray ? `${data.length} archivo(s) disponible(s)` : data.titulo)
+                        : 'Informe Técnico'}
                 </p>
-                ${tienePDF 
-                    ? `<button onclick="abrirVisor('${key}')" class="btn-semana">
-                            <i class="fas fa-eye"></i> Ver Semana ${semanaStr}
-                       </button>`
-                    : `<button class="btn-semana btn-semana-disabled" disabled>
-                            <i class="fas fa-lock"></i> Sin contenido aún
-                       </button>`
-                }
+                ${botonesHTML}
             </div>
         `;
     }
 }
 
-function abrirVisor(key) {
+function abrirVisor(key, idx) {
     const data = pdfs[key];
     if (!data) return;
 
-    document.getElementById('visorTitulo').textContent = data.titulo;
-    document.getElementById('iframePDF').src = data.archivo;
-    document.getElementById('btnDescargar').href = data.archivo;
+    let pdf;
+    if (Array.isArray(data)) {
+        pdf = data[idx];
+    } else {
+        pdf = data;
+    }
+
+    document.getElementById('visorTitulo').textContent = pdf.titulo;
+    document.getElementById('iframePDF').src = pdf.archivo;
+    document.getElementById('btnDescargar').href = pdf.archivo;
 
     const visor = document.getElementById('visorPDF');
     visor.style.display = 'flex';

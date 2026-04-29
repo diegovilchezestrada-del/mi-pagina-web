@@ -9,14 +9,17 @@
 </head>
 <body>
 
+<!-- CURSOR PERSONALIZADO -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <canvas id="bg-canvas"></canvas>
+<div class="grid-overlay"></div>
 
 <!-- NAVBAR -->
 <header class="navbar">
     <div class="navbar-brand">
-        <div class="brand-logo">
-            <i class="fas fa-database"></i>
-        </div>
+        <div class="brand-logo"><img src="LogoUpla.png" alt="UPLA"></div>
         <div class="brand-text">
             <span class="brand-title">Universidad Peruana Los Andes</span>
             <span class="brand-sub">Portafolio · Base de Datos II</span>
@@ -37,8 +40,6 @@
 </header>
 
 <div class="contenedor-unidades">
-
-    <!-- MENÚ LATERAL -->
     <aside class="menu-unidades">
         <h2><i class="fas fa-book-open"></i> Unidades</h2>
         <button onclick="mostrarUnidad(1)" class="btn-unidad" id="btn-u1">
@@ -53,7 +54,6 @@
         <button onclick="mostrarUnidad(4)" class="btn-unidad" id="btn-u4">
             <i class="fas fa-circle-dot"></i> Unidad 04
         </button>
-
         <div class="menu-footer">
             <button onclick="cerrarSesion()" class="btn-salir">
                 <i class="fas fa-sign-out-alt"></i> Salir
@@ -61,12 +61,10 @@
         </div>
     </aside>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="contenido-unidades">
         <h1 id="tituloUnidad">Unidad 01</h1>
         <div id="contenidoSemanas"></div>
 
-        <!-- VISOR DE PDF -->
         <div id="visorPDF" class="visor-pdf-container" style="display:none;">
             <div class="visor-header">
                 <div class="visor-titulo">
@@ -92,54 +90,71 @@
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let W, H, particles = [];
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+}
 resize();
 window.addEventListener('resize', resize);
+
 function createParticle() {
-    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+0.5,
-             dx: (Math.random()-0.5)*0.4, dy: (Math.random()-0.5)*0.4, alpha: Math.random()*0.5+0.1 };
+    return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.5,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.5 + 0.1
+    };
 }
-for (let i = 0; i < 120; i++) particles.push(createParticle());
+
+for (let i = 0; i < 150; i++) particles.push(createParticle());
+
 function drawParticles() {
-    ctx.clearRect(0,0,W,H);
+    ctx.clearRect(0, 0, W, H);
     for (let p of particles) {
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle=`rgba(100,220,255,${p.alpha})`; ctx.fill();
-        p.x+=p.dx; p.y+=p.dy;
-        if(p.x<0||p.x>W) p.dx*=-1;
-        if(p.y<0||p.y>H) p.dy*=-1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(100,220,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > W) p.dx *= -1;
+        if (p.y < 0 || p.y > H) p.dy *= -1;
     }
-    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
-        let d=Math.hypot(particles[i].x-particles[j].x,particles[i].y-particles[j].y);
-        if(d<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);
-        ctx.lineTo(particles[j].x,particles[j].y);
-        ctx.strokeStyle=`rgba(100,220,255,${0.08*(1-d/100)})`;ctx.lineWidth=0.5;ctx.stroke();}
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            let d = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+            if (d < 100) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(100,220,255,${0.08 * (1 - d / 100)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+        }
     }
     requestAnimationFrame(drawParticles);
 }
 drawParticles();
 
-// PDFs disponibles
-// Si una semana tiene UN solo PDF → objeto {}
-// Si una semana tiene VARIOS PDFs → array []
+// ====================== PDFs DISPONIBLES ======================
 const pdfs = {
     'u1s1': {
         archivo: 'unidad01semana01.pdf',
         titulo: 'Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos'
     },
     'u1s2': [
-        {
-            archivo: 'Analisis_Tecnico.pdf',
-            titulo: 'Análisis Técnico'
-        },
-        {
-            archivo: 'Diagrama.pdf',
-            titulo: 'Diagrama'
-        },
-        {
-            archivo: 'Manual de Instalacion SQL.pdf',
-            titulo: 'Manual de Instalación SQL'
-        }
+        { archivo: 'Analisis_Tecnico.pdf', titulo: 'Ver Semana 02' },
+        { archivo: 'Diagrama.pdf', titulo: 'Diagrama' },
+        { archivo: 'Manual de Instalacion SQL.pdf', titulo: 'Manual de Instalación SQL' }
+    ],
+    // 👇 NUEVA SEMANA 03 CON DOS PDFS
+    'u1s3': [
+        { archivo: 'Arquitecturadebasededatos.pdf', titulo: 'Ver Semana 03' },
+        { archivo: 'Preguntas.pdf', titulo: 'Preguntas' }
     ]
 };
 
@@ -149,12 +164,12 @@ function mostrarUnidad(num) {
     unidadActual = num;
     cerrarVisor();
 
-    for(let i=1;i<=4;i++) {
+    for (let i = 1; i <= 4; i++) {
         document.getElementById(`btn-u${i}`).classList.remove('activo');
     }
     document.getElementById(`btn-u${num}`).classList.add('activo');
 
-    document.getElementById("tituloUnidad").innerText = `Unidad ${num.toString().padStart(2,'0')}`;
+    document.getElementById("tituloUnidad").innerText = `Unidad ${num.toString().padStart(2, '0')}`;
     generarSemanas(num);
 }
 
@@ -167,20 +182,17 @@ function generarSemanas(unidadNum) {
         const data = pdfs[key];
         const tienePDF = data !== undefined;
         const esArray = Array.isArray(data);
-        const semanaStr = i.toString().padStart(2,'0');
+        const semanaStr = i.toString().padStart(2, '0');
 
-        // Construir botones según si hay uno o varios PDFs
         let botonesHTML = '';
         if (tienePDF) {
             if (esArray) {
-                // Varios PDFs: un botón por cada uno
                 botonesHTML = data.map((pdf, idx) => `
                     <button onclick="abrirVisor('${key}', ${idx})" class="btn-semana" style="margin-bottom:6px;">
                         <i class="fas fa-eye"></i> ${pdf.titulo}
                     </button>
                 `).join('');
             } else {
-                // Un solo PDF
                 botonesHTML = `
                     <button onclick="abrirVisor('${key}', -1)" class="btn-semana">
                         <i class="fas fa-eye"></i> Ver Semana ${semanaStr}
@@ -199,13 +211,13 @@ function generarSemanas(unidadNum) {
             <div class="semana">
                 <div class="semana-header">
                     <h3><i class="fas fa-calendar-week"></i> Semana ${semanaStr}</h3>
-                    ${tienePDF 
-                        ? '<span class="badge-disponible"><i class="fas fa-check-circle"></i> Disponible</span>' 
+                    ${tienePDF
+                        ? '<span class="badge-disponible"><i class="fas fa-check-circle"></i> Disponible</span>'
                         : '<span class="badge-pronto"><i class="fas fa-clock"></i> Próximamente</span>'}
                 </div>
                 <p class="estado-archivo">
-                    <i class="fas fa-file-alt"></i> 
-                    ${tienePDF 
+                    <i class="fas fa-file-alt"></i>
+                    ${tienePDF
                         ? (esArray ? `${data.length} archivo(s) disponible(s)` : data.titulo)
                         : 'Informe Técnico'}
                 </p>
@@ -248,7 +260,89 @@ function cerrarSesion() {
 }
 
 window.onload = () => mostrarUnidad(1);
-</script>
 
+// ====================== CURSOR PERSONALIZADO ======================
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+
+const cursorColors = [
+    { dot: '#00f0ff', ring: 'rgba(0,240,255,0.55)' },
+    { dot: '#cc00ff', ring: 'rgba(200,0,255,0.55)' },
+    { dot: '#00ffb3', ring: 'rgba(0,255,179,0.55)' },
+    { dot: '#ffffff', ring: 'rgba(255,255,255,0.4)' },
+    { dot: '#ff0099', ring: 'rgba(255,0,153,0.55)' },
+    { dot: '#0099ff', ring: 'rgba(0,153,255,0.55)' },
+];
+
+let colorIdx = 0;
+let trailTimer = 0;
+let mx = 0, my = 0;
+let rx = 0, ry = 0;
+
+function applyColor(idx) {
+    const c = cursorColors[idx];
+    dot.style.background = c.dot;
+    dot.style.boxShadow = `0 0 12px ${c.dot}, 0 0 24px ${c.dot}`;
+    ring.style.borderColor = c.ring;
+    ring.style.boxShadow = `0 0 10px ${c.ring}`;
+}
+applyColor(0);
+
+setInterval(() => {
+    colorIdx = (colorIdx + 1) % cursorColors.length;
+    applyColor(colorIdx);
+}, 1200);
+
+document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+
+    trailTimer++;
+    if (trailTimer % 3 === 0) {
+        const trail = document.createElement('div');
+        trail.className = 'cursor-trail';
+        const c = cursorColors[colorIdx];
+        const size = Math.random() * 6 + 3;
+        trail.style.cssText = `
+            left: ${mx}px; top: ${my}px;
+            width: ${size}px; height: ${size}px;
+            background: ${c.dot};
+            box-shadow: 0 0 8px ${c.dot};
+            opacity: 0.7;
+        `;
+        document.body.appendChild(trail);
+        setTimeout(() => trail.remove(), 650);
+    }
+});
+
+function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+}
+animateRing();
+
+const interactivos = 'a, button, [onclick], input, label, .btn-unidad, .btn-semana, .btn-salir, .btn-ingresar, .avatar-circle';
+document.querySelectorAll(interactivos).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+
+document.addEventListener('mouseleave', () => {
+    dot.style.opacity = '0';
+    ring.style.opacity = '0';
+});
+document.addEventListener('mouseenter', () => {
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+});
+</script>
 </body>
 </html>

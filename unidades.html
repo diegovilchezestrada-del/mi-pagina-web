@@ -65,10 +65,11 @@
         <h1 id="tituloUnidad">Unidad 01</h1>
         <div id="contenidoSemanas"></div>
 
+        <!-- VISOR UNIFICADO (PDFs e Imágenes) -->
         <div id="visorPDF" class="visor-pdf-container" style="display:none;">
             <div class="visor-header">
                 <div class="visor-titulo">
-                    <i class="fas fa-file-pdf"></i>
+                    <i class="fas fa-file-pdf" id="visorIcono"></i>
                     <span id="visorTitulo">Informe Técnico</span>
                 </div>
                 <div class="visor-acciones">
@@ -80,7 +81,10 @@
                     </button>
                 </div>
             </div>
+            <!-- Visor PDF -->
             <iframe id="iframePDF" src="" class="visor-iframe"></iframe>
+            <!-- Visor Imagen -->
+            <img id="visorImagen" src="" class="visor-iframe" style="display:none; object-fit:contain; background:#000; width:100%; height:100%;">
         </div>
     </main>
 </div>
@@ -141,7 +145,7 @@ function drawParticles() {
 }
 drawParticles();
 
-// ====================== PDFs DISPONIBLES ======================
+// ====================== CONTENIDO ======================
 const pdfs = {
     // ── UNIDAD 1 ──
     'u1s1': {
@@ -154,22 +158,24 @@ const pdfs = {
         { archivo: 'Manual de Instalacion SQL.pdf',  titulo: 'Manual de Instalación SQL' }
     ],
     'u1s3': [
-        { archivo: 'Arquitecturadebasededatos.pdf',                  titulo: 'Arquitectura de Base de Datos Relacional' },
-        { archivo: 'Preguntas.pdf',                                   titulo: 'Preguntas' },
-        { archivo: 'MODELADO Y NORMALIZACION DE BASE DE DATOS.pdf',  titulo: 'Modelado y Normalización de BD' }
+        { archivo: 'Arquitecturadebasededatos.pdf',                 titulo: 'Arquitectura de Base de Datos Relacional' },
+        { archivo: 'Preguntas.pdf',                                  titulo: 'Preguntas' },
+        { archivo: 'MODELADO Y NORMALIZACION DE BASE DE DATOS.pdf', titulo: 'Modelado y Normalización de BD' }
     ],
     'u1s4': [
         { archivo: 'ARQUITECTURA DE BASE DE DATOS .pdf', titulo: 'Arquitecturas de Base de Datos' },
         { archivo: 'MODELO .pdf',                        titulo: 'Modelo de Base de Datos' }
     ],
 
-     // ── UNIDAD 2 ──
+    // ── UNIDAD 2 ──
+    // ✅ Se eliminó relacion_normalizada.pdf
+    // ✅ Se agregaron 4 imágenes
     'u2s1': [
-        { archivo: 'Introducción_Visual_a_SQL_.pdf', titulo: 'Introducción a Microsoft SQL Server' },
-        { archivo: 'Relación no Normalisada.png', titulo: 'Relación no Normalisada', tipo: 'imagen' },
-        { archivo: '1ra Forma Normalisada', titulo: '1ra Forma Normalisada', tipo: 'imagen' },
-        { archivo: '2da Forma Normlisada semana', titulo: '2da Forma Normlisada semana', tipo: 'imagen' },
-        { archivo: '3ra Forma Normlisada', titulo: '3ra Forma Normlisada', tipo: 'imagen' }
+        { archivo: 'Introducción_Visual_a_SQL_.pdf',    titulo: 'Introducción a Microsoft SQL Server' },
+        { archivo: 'Relación no Normalisada.png',        titulo: 'Relación no Normalisada',        tipo: 'imagen' },
+        { archivo: '1ra Forma Normalisada.png',          titulo: '1ra Forma Normalisada',          tipo: 'imagen' },
+        { archivo: '2da Forma Normlisada semana.png',    titulo: '2da Forma Normlisada semana',    tipo: 'imagen' },
+        { archivo: '3ra Forma Normlisada.png',           titulo: '3ra Forma Normlisada',           tipo: 'imagen' }
     ]
 };
 
@@ -202,11 +208,15 @@ function generarSemanas(unidadNum) {
         let botonesHTML = '';
         if (tienePDF) {
             if (esArray) {
-                botonesHTML = data.map((pdf, idx) => `
-                    <button onclick="abrirVisor('${key}', ${idx})" class="btn-semana" style="margin-bottom:6px;">
-                        <i class="fas fa-eye"></i> ${pdf.titulo}
-                    </button>
-                `).join('');
+                botonesHTML = data.map((item, idx) => {
+                    const esImagen = item.tipo === 'imagen';
+                    const icono = esImagen ? 'fa-image' : 'fa-eye';
+                    return `
+                        <button onclick="abrirVisor('${key}', ${idx})" class="btn-semana" style="margin-bottom:6px;">
+                            <i class="fas ${icono}"></i> ${item.titulo}
+                        </button>
+                    `;
+                }).join('');
             } else {
                 botonesHTML = `
                     <button onclick="abrirVisor('${key}', -1)" class="btn-semana">
@@ -222,6 +232,23 @@ function generarSemanas(unidadNum) {
             `;
         }
 
+        // Contar PDFs e imágenes por separado para el texto descriptivo
+        let descripcionArchivos = '';
+        if (tienePDF) {
+            if (esArray) {
+                const numPDFs    = data.filter(d => d.tipo !== 'imagen').length;
+                const numImages  = data.filter(d => d.tipo === 'imagen').length;
+                const partes = [];
+                if (numPDFs   > 0) partes.push(`${numPDFs} PDF(s)`);
+                if (numImages > 0) partes.push(`${numImages} imagen(es)`);
+                descripcionArchivos = partes.join(' · ');
+            } else {
+                descripcionArchivos = data.titulo;
+            }
+        } else {
+            descripcionArchivos = 'Informe Técnico';
+        }
+
         contenedor.innerHTML += `
             <div class="semana">
                 <div class="semana-header">
@@ -231,10 +258,7 @@ function generarSemanas(unidadNum) {
                         : '<span class="badge-pronto"><i class="fas fa-clock"></i> Próximamente</span>'}
                 </div>
                 <p class="estado-archivo">
-                    <i class="fas fa-file-alt"></i>
-                    ${tienePDF
-                        ? (esArray ? `${data.length} archivo(s) disponible(s)` : data.titulo)
-                        : 'Informe Técnico'}
+                    <i class="fas fa-file-alt"></i> ${descripcionArchivos}
                 </p>
                 ${botonesHTML}
             </div>
@@ -246,16 +270,31 @@ function abrirVisor(key, idx) {
     const data = pdfs[key];
     if (!data) return;
 
-    let pdf;
-    if (Array.isArray(data)) {
-        pdf = data[idx];
-    } else {
-        pdf = data;
-    }
+    const item = Array.isArray(data) ? data[idx] : data;
+    const esImagen = item.tipo === 'imagen';
 
-    document.getElementById('visorTitulo').textContent = pdf.titulo;
-    document.getElementById('iframePDF').src = pdf.archivo;
-    document.getElementById('btnDescargar').href = pdf.archivo;
+    document.getElementById('visorTitulo').textContent = item.titulo;
+    document.getElementById('btnDescargar').href = item.archivo;
+
+    const iframe  = document.getElementById('iframePDF');
+    const img     = document.getElementById('visorImagen');
+    const icono   = document.getElementById('visorIcono');
+
+    if (esImagen) {
+        // Mostrar imagen, ocultar iframe
+        iframe.style.display = 'none';
+        iframe.src = '';
+        img.src = item.archivo;
+        img.style.display = 'block';
+        icono.className = 'fas fa-image';
+    } else {
+        // Mostrar iframe PDF, ocultar imagen
+        img.style.display = 'none';
+        img.src = '';
+        iframe.src = item.archivo;
+        iframe.style.display = 'block';
+        icono.className = 'fas fa-file-pdf';
+    }
 
     const visor = document.getElementById('visorPDF');
     visor.style.display = 'flex';
@@ -266,6 +305,9 @@ function cerrarVisor() {
     const visor = document.getElementById('visorPDF');
     visor.style.display = 'none';
     document.getElementById('iframePDF').src = '';
+    document.getElementById('visorImagen').src = '';
+    document.getElementById('visorImagen').style.display = 'none';
+    document.getElementById('iframePDF').style.display = 'block';
 }
 
 function cerrarSesion() {

@@ -168,13 +168,15 @@ const pdfs = {
     ],
 
     // ── UNIDAD 2 ──
-    
     'u2s1': [
-        { archivo: 'tablasSQLserver.png',    titulo: 'Introducción a Microsoft SQL Server',        tipo: 'imagen'  },
-        { archivo: 'Relación no Normalisada.png',        titulo: 'Relación no Normalisada',        tipo: 'imagen' },
-        { archivo: '1ra Forma Normalisada.png',          titulo: '1ra Forma Normalisada',          tipo: 'imagen' },
-        { archivo: '2da Forma Normalisada semana.png',    titulo: '2da Forma Normalisada ',    tipo: 'imagen' },
-        { archivo: '3ra Forma Normalisada.png',           titulo: '3ra Forma Normalisada',           tipo: 'imagen' }
+        { archivo: 'Introducción_Visual_a_SQL.png',  titulo: 'Introducción Visual a SQL',  tipo: 'imagen' },
+        { archivo: 'Relación no Normalisada.png',    titulo: 'Relación no Normalisada',    tipo: 'imagen' },
+        { archivo: '1ra Forma Normalisada.png',      titulo: '1ra Forma Normalisada',      tipo: 'imagen' },
+        { archivo: '2da Forma Normalisada semana.png', titulo: '2da Forma Normalisada',    tipo: 'imagen' },
+        { archivo: '3ra Forma Normalisada.png',      titulo: '3ra Forma Normalisada',      tipo: 'imagen' }
+    ],
+    'u2s2': [
+        { archivo: 'tablasSQLserver.png', titulo: 'Tablas en SQL Server', tipo: 'imagen' }
     ]
 };
 
@@ -231,12 +233,11 @@ function generarSemanas(unidadNum) {
             `;
         }
 
-        // Contar PDFs e imágenes por separado para el texto descriptivo
         let descripcionArchivos = '';
         if (tienePDF) {
             if (esArray) {
-                const numPDFs    = data.filter(d => d.tipo !== 'imagen').length;
-                const numImages  = data.filter(d => d.tipo === 'imagen').length;
+                const numPDFs   = data.filter(d => d.tipo !== 'imagen').length;
+                const numImages = data.filter(d => d.tipo === 'imagen').length;
                 const partes = [];
                 if (numPDFs   > 0) partes.push(`${numPDFs} PDF(s)`);
                 if (numImages > 0) partes.push(`${numImages} imagen(es)`);
@@ -280,14 +281,12 @@ function abrirVisor(key, idx) {
     const icono   = document.getElementById('visorIcono');
 
     if (esImagen) {
-        // Mostrar imagen, ocultar iframe
         iframe.style.display = 'none';
         iframe.src = '';
         img.src = item.archivo;
         img.style.display = 'block';
         icono.className = 'fas fa-image';
     } else {
-        // Mostrar iframe PDF, ocultar imagen
         img.style.display = 'none';
         img.src = '';
         iframe.src = item.archivo;

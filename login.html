@@ -1,416 +1,291 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso · Portafolio UPLA</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        /* ── LOGIN ESPECÍFICO ── */
-        body { display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden; }
-
-        /* Orbs de fondo */
-        .l-orb { position:fixed; border-radius:50%; pointer-events:none; filter:blur(120px); }
-        .l-orb-1 { width:700px;height:700px; background:radial-gradient(circle,rgba(160,0,255,.18),transparent 70%); top:-200px;left:-200px; animation:lo1 10s ease-in-out infinite; }
-        .l-orb-2 { width:600px;height:600px; background:radial-gradient(circle,rgba(0,60,200,.14),transparent 70%); bottom:-150px;right:-100px; animation:lo2 12s ease-in-out infinite; }
-        .l-orb-3 { width:400px;height:400px; background:radial-gradient(circle,rgba(0,200,255,.12),transparent 70%); top:40%;left:40%; animation:lo3 8s ease-in-out infinite; }
-        @keyframes lo1{0%,100%{transform:translate(0,0);}50%{transform:translate(60px,50px);}}
-        @keyframes lo2{0%,100%{transform:translate(0,0);}50%{transform:translate(-50px,-60px);}}
-        @keyframes lo3{0%,100%{transform:translate(-50%,-50%);}50%{transform:translate(calc(-50% + 30px),calc(-50% - 25px));}}
-
-        /* Wrapper principal */
-        .login-wrap {
-            position:relative; z-index:10;
-            display:flex; width:1000px; max-width:96vw;
-            min-height:600px; border-radius:24px; overflow:hidden;
-            box-shadow:0 0 0 1px rgba(0,240,255,.1), 0 0 80px rgba(0,0,0,.8), 0 0 120px rgba(0,240,255,.06);
-            animation:wrapIn .8s cubic-bezier(.16,1,.3,1) both;
-        }
-        @keyframes wrapIn{from{opacity:0;transform:translateY(40px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-
-        /* ── PANEL IZQUIERDO ── */
-        .l-left {
-            flex:1; position:relative; overflow:hidden;
-            background:linear-gradient(145deg,rgba(5,1,25,.95),rgba(10,2,40,.98));
-            border-right:1px solid rgba(0,240,255,.08);
-            display:flex; flex-direction:column; align-items:center; justify-content:center;
-            padding:52px 40px; text-align:center;
-        }
-
-        /* Grilla holográfica de fondo */
-        .l-left-grid {
-            position:absolute; inset:0;
-            background-image:linear-gradient(rgba(0,240,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.04) 1px,transparent 1px);
-            background-size:40px 40px;
-            mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
-            -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
-        }
-
-        /* Anillos orbitales del panel izquierdo */
-        .l-rings { position:absolute; top:50%; left:50%; }
-        .l-ring {
-            position:absolute; border-radius:50%; border:1px solid;
-            top:50%; left:50%; transform:translate(-50%,-50%);
-        }
-        .lr1 { width:360px;height:360px; border-color:rgba(0,240,255,.06); animation:rotR 22s linear infinite; }
-        .lr2 { width:280px;height:280px; border-color:rgba(200,0,255,.08); animation:rotR 15s linear infinite reverse; }
-        .lr3 { width:200px;height:200px; border-color:rgba(0,255,179,.06); animation:rotR 9s linear infinite; }
-        .lr1::before { content:''; position:absolute; width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);top:-3px;left:50%;transform:translateX(-50%); }
-        .lr2::before { content:''; position:absolute; width:5px;height:5px;border-radius:50%;background:var(--m);box-shadow:0 0 10px var(--m);bottom:-2px;left:50%;transform:translateX(-50%); }
-
-        /* Logo central izquierdo */
-        .l-logo-wrap {
-            position:relative; z-index:2;
-            display:flex; flex-direction:column; align-items:center; gap:28px;
-        }
-        .l-logo-box {
-            width:90px; height:90px; border-radius:22px; overflow:hidden;
-            box-shadow:0 0 40px rgba(0,240,255,.6), 0 0 80px rgba(0,240,255,.2), 0 0 0 1px rgba(0,240,255,.2);
-            animation:lbFloat 4s ease-in-out infinite;
-        }
-        .l-logo-box img { width:100%;height:100%;object-fit:contain;display:block; }
-        @keyframes lbFloat{0%,100%{transform:translateY(0);box-shadow:0 0 40px rgba(0,240,255,.6),0 0 80px rgba(0,240,255,.2),0 0 0 1px rgba(0,240,255,.2);}50%{transform:translateY(-12px);box-shadow:0 20px 50px rgba(0,240,255,.4),0 0 100px rgba(0,240,255,.18),0 0 0 1px rgba(0,240,255,.25);}}
-
-        .l-title {
-            font-family:'Orbitron',sans-serif; font-size:1.45rem; font-weight:700;
-            color:var(--tx); line-height:1.3; margin-bottom:4px;
-        }
-        .l-sub { font-family:'Share Tech Mono',monospace; font-size:.8rem; color:var(--c); letter-spacing:.08em; }
-        .l-desc { font-size:.9rem; color:var(--mu); line-height:1.7; max-width:280px; margin-top:6px; }
-
-        /* Stats */
-        .l-stats {
-            display:flex; gap:24px; margin-top:36px; position:relative; z-index:2;
-        }
-        .l-stat {
-            display:flex; flex-direction:column; align-items:center; gap:4px;
-            padding:14px 20px; border-radius:12px;
-            background:rgba(0,240,255,.05); border:1px solid rgba(0,240,255,.1);
-            transition:all .3s;
-        }
-        .l-stat:hover { background:rgba(0,240,255,.1); border-color:rgba(0,240,255,.25); transform:translateY(-3px); }
-        .l-stat-num { font-family:'Orbitron',sans-serif; font-size:1.5rem; font-weight:900; color:var(--c); line-height:1; }
-        .l-stat-lbl { font-family:'Share Tech Mono',monospace; font-size:.65rem; color:var(--mu); letter-spacing:.06em; }
-
-        /* Badges inferiores */
-        .l-badges { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:22px; position:relative; z-index:2; }
-        .l-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-family:'Share Tech Mono',monospace; font-size:.65rem; color:var(--mu); border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.03); }
-
-        /* ── PANEL DERECHO ── */
-        .l-right {
-            flex:1.15; position:relative;
-            background:rgba(1,6,18,.97);
-            display:flex; flex-direction:column; align-items:center; justify-content:center;
-            padding:52px 50px;
-        }
-
-        /* Línea decorativa superior */
-        .l-right::before {
-            content:''; position:absolute; top:0;left:0;right:0; height:2px;
-            background:linear-gradient(90deg,transparent,var(--c),var(--m),transparent);
-        }
-
-        .form-wrap { width:100%; max-width:380px; }
-
-        .form-header { margin-bottom:36px; }
-        .form-eyebrow { font-family:'Share Tech Mono',monospace; font-size:.72rem; color:var(--c); letter-spacing:.14em; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
-        .form-eyebrow::before { content:''; width:24px;height:1px;background:var(--c); }
-        .form-title { font-family:'Orbitron',sans-serif; font-size:1.9rem; font-weight:900; color:var(--tx); line-height:1.1; }
-        .form-title span { color:var(--c); }
-        .form-sub { font-size:.9rem; color:var(--mu); margin-top:8px; line-height:1.6; }
-
-        /* Inputs */
-        .input-group { position:relative; margin-bottom:18px; }
-        .input-label { font-family:'Orbitron',sans-serif; font-size:.6rem; font-weight:700; letter-spacing:.1em; color:var(--mu); display:block; margin-bottom:7px; transition:color .25s; }
-        .input-group:focus-within .input-label { color:var(--c); }
-
-        .input-field {
-            position:relative; display:flex; align-items:center;
-            background:rgba(0,240,255,.04); border:1px solid rgba(0,240,255,.1);
-            border-radius:10px; transition:all .3s; overflow:hidden;
-        }
-        .input-field::before {
-            content:''; position:absolute; inset:0;
-            background:linear-gradient(90deg,transparent,rgba(0,240,255,.03),transparent);
-            opacity:0; transition:opacity .3s;
-        }
-        .input-group:focus-within .input-field {
-            border-color:rgba(0,240,255,.4);
-            background:rgba(0,240,255,.07);
-            box-shadow:0 0 0 3px rgba(0,240,255,.08), 0 0 24px rgba(0,240,255,.12);
-        }
-        .input-group:focus-within .input-field::before { opacity:1; }
-
-        .input-icon { padding:0 14px; color:rgba(180,215,255,.3); font-size:.88rem; flex-shrink:0; transition:color .3s; }
-        .input-group:focus-within .input-icon { color:var(--c); }
-
-        .input-field input {
-            flex:1; padding:14px 4px; background:transparent;
-            border:none; outline:none; color:var(--tx);
-            font-family:'Rajdhani',sans-serif; font-size:.98rem; font-weight:500;
-        }
-        .input-field input::placeholder { color:rgba(180,215,255,.22); }
-
-        .input-bar {
-            position:absolute; bottom:-1px; left:0; right:0; height:2px;
-            background:linear-gradient(90deg,var(--c),var(--m));
-            transform:scaleX(0); transform-origin:left; transition:transform .35s ease;
-            border-radius:0 0 10px 10px;
-        }
-        .input-group:focus-within .input-bar { transform:scaleX(1); }
-
-        .toggle-pwd { padding:0 14px; color:rgba(180,215,255,.3); font-size:.82rem; flex-shrink:0; transition:color .25s; }
-        .toggle-pwd:hover { color:var(--c); }
-
-        /* Strength bar */
-        .pwd-strength { display:flex; gap:4px; margin-top:7px; }
-        .pwd-bar { flex:1; height:2px; border-radius:2px; background:rgba(255,255,255,.06); transition:background .4s; }
-        .pwd-bar.active-1 { background:var(--m); }
-        .pwd-bar.active-2 { background:#f59e0b; }
-        .pwd-bar.active-3,.pwd-bar.active-4 { background:var(--t); }
-
-        /* Opciones */
-        .form-options { display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; }
-        .remember-label { display:flex; align-items:center; gap:9px; font-size:.82rem; color:var(--mu); }
-        .custom-check { width:16px;height:16px;border-radius:4px;border:1px solid rgba(0,240,255,.25);background:rgba(0,240,255,.05);appearance:none;-webkit-appearance:none;flex-shrink:0;position:relative;transition:all .25s; }
-        .custom-check:checked { background:var(--c); border-color:var(--c); box-shadow:0 0 10px rgba(0,240,255,.5); }
-        .custom-check:checked::after { content:'✓'; position:absolute; top:50%;left:50%;transform:translate(-50%,-50%); font-size:10px; color:#020c1e; font-weight:900; }
-        .forgot-link { font-family:'Orbitron',sans-serif; font-size:.62rem; color:var(--c); text-decoration:none; letter-spacing:.06em; opacity:.8; transition:opacity .2s; }
-        .forgot-link:hover { opacity:1; text-decoration:underline; }
-
-        /* Botón submit */
-        .btn-submit {
-            width:100%; padding:15px; border:none; border-radius:10px;
-            font-family:'Orbitron',sans-serif; font-size:.8rem; font-weight:700; letter-spacing:.1em;
-            color:#020c1e; position:relative; overflow:hidden;
-            background:linear-gradient(135deg,var(--c),var(--t));
-            box-shadow:0 0 40px rgba(0,240,255,.45),0 6px 28px rgba(0,0,0,.6);
-            transition:transform .25s,box-shadow .25s;
-        }
-        .btn-submit:hover { transform:translateY(-3px); box-shadow:0 0 65px rgba(0,240,255,.68),0 12px 36px rgba(0,0,0,.6); }
-        .btn-submit:active { transform:translateY(0); }
-        .btn-submit .sh { position:absolute;inset:0;background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.45) 50%,transparent 75%);transform:translateX(-100%);animation:shine 3.5s ease-in-out infinite; }
-        .btn-submit .btn-content { position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px; }
-
-        /* Divider */
-        .divider { display:flex; align-items:center; gap:14px; margin:22px 0; }
-        .divider-line { flex:1; height:1px; background:rgba(0,240,255,.07); }
-        .divider span { font-family:'Share Tech Mono',monospace; font-size:.7rem; color:rgba(180,215,255,.25); letter-spacing:.1em; }
-
-        /* Google btn */
-        .btn-google {
-            width:100%; padding:13px; border:1px solid rgba(255,255,255,.07);
-            border-radius:10px; background:rgba(255,255,255,.03);
-            font-family:'Rajdhani',sans-serif; font-size:.96rem; font-weight:600;
-            color:rgba(180,215,255,.65); display:flex; align-items:center; justify-content:center; gap:12px;
-            transition:all .3s;
-        }
-        .btn-google:hover { background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.14); transform:translateY(-2px); }
-        .btn-google .g-icon { width:18px;height:18px; }
-
-        /* Register */
-        .register-line { text-align:center; margin-top:24px; font-size:.84rem; color:var(--mu); }
-        .register-line a { color:var(--c); text-decoration:none; font-weight:700; font-family:'Orbitron',sans-serif; font-size:.72rem; letter-spacing:.04em; }
-        .register-line a:hover { text-decoration:underline; }
-
-        /* Partícula de seguridad */
-        .secure-badge { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:20px; font-family:'Share Tech Mono',monospace; font-size:.65rem; color:rgba(180,215,255,.28); }
-        .secure-badge i { color:var(--t); font-size:.7rem; }
-
-        @media(max-width:700px){
-            .l-left { display:none; }
-            .l-right { padding:40px 28px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCESO · DB2 · UPLA</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-<body>
+<body class="login-page">
 
+<!-- MARCOS ESQUINA -->
+<div class="cf tl"></div>
+<div class="cf tr"></div>
+<div class="cf bl"></div>
+<div class="cf br"></div>
+
+<!-- CURSOR -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+
 <canvas id="bg-canvas"></canvas>
 <div class="grid-overlay"></div>
 <div class="scanner-line"></div>
+
+<!-- ORBES -->
 <div class="l-orb l-orb-1"></div>
 <div class="l-orb l-orb-2"></div>
 <div class="l-orb l-orb-3"></div>
 
-<a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
-
-<div class="login-wrap">
-
-    <!-- PANEL IZQUIERDO -->
-    <div class="l-left">
-        <div class="l-left-grid"></div>
-        <div class="l-rings">
-            <div class="l-ring lr1"></div>
-            <div class="l-ring lr2"></div>
-            <div class="l-ring lr3"></div>
-        </div>
-        <div class="l-logo-wrap">
-            <div class="l-logo-box"><img src="LogoUpla.png" alt="UPLA"></div>
-            <div>
-                <div class="l-title">Universidad Peruana<br>Los Andes</div>
-                <div class="l-sub">BASE DE DATOS II · 2026</div>
-                <p class="l-desc">Accede a tu portafolio académico con el material de cada unidad y semana.</p>
-            </div>
-            <div class="l-stats">
-                <div class="l-stat">
-                    <span class="l-stat-num">4</span>
-                    <span class="l-stat-lbl">UNIDADES</span>
-                </div>
-                <div class="l-stat">
-                    <span class="l-stat-num">16</span>
-                    <span class="l-stat-lbl">SEMANAS</span>
-                </div>
-                <div class="l-stat">
-                    <span class="l-stat-num">2026</span>
-                    <span class="l-stat-lbl">CICLO</span>
-                </div>
-            </div>
-            <div class="l-badges">
-                <span class="l-badge"><i class="fas fa-map-marker-alt" style="color:var(--c)"></i> Huancayo · Perú</span>
-                <span class="l-badge"><i class="fas fa-graduation-cap" style="color:var(--m)"></i> Ing. Sistemas</span>
-                <span class="l-badge"><i class="fas fa-shield-alt" style="color:var(--t)"></i> Acceso Seguro</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL DERECHO - FORMULARIO -->
-    <div class="l-right">
-        <div class="form-wrap">
-
-            <div class="form-header">
-                <div class="form-eyebrow">ACCESO AL PORTAL</div>
-                <div class="form-title">Iniciar<br><span>Sesión</span></div>
-                <p class="form-sub">Ingresa tus credenciales para acceder al portafolio.</p>
-            </div>
-
-            <form id="loginForm">
-
-                <div class="input-group">
-                    <label class="input-label">USUARIO O CORREO</label>
-                    <div class="input-field">
-                        <span class="input-icon"><i class="fas fa-user"></i></span>
-                        <input type="text" id="username" placeholder="usuario@upla.edu.pe" autocomplete="off">
-                        <div class="input-bar"></div>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">CONTRASEÑA</label>
-                    <div class="input-field">
-                        <span class="input-icon"><i class="fas fa-lock"></i></span>
-                        <input type="password" id="password" placeholder="••••••••••" autocomplete="off">
-                        <span class="toggle-pwd" id="togglePwd"><i class="fas fa-eye"></i></span>
-                        <div class="input-bar"></div>
-                    </div>
-                    <div class="pwd-strength" id="pwdStrength">
-                        <div class="pwd-bar" id="pb1"></div>
-                        <div class="pwd-bar" id="pb2"></div>
-                        <div class="pwd-bar" id="pb3"></div>
-                        <div class="pwd-bar" id="pb4"></div>
-                    </div>
-                </div>
-
-                <div class="form-options">
-                    <label class="remember-label">
-                        <input type="checkbox" class="custom-check" checked> Recordarme
-                    </label>
-                    <a href="#" class="forgot-link">¿OLVIDASTE TU CONTRASEÑA?</a>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    <span class="sh"></span>
-                    <span class="btn-content"><i class="fas fa-sign-in-alt"></i> INGRESAR AL PORTAL</span>
-                </button>
-
-            </form>
-
-            <div class="divider">
-                <div class="divider-line"></div>
-                <span>O CONTINÚA CON</span>
-                <div class="divider-line"></div>
-            </div>
-
-            <button class="btn-google">
-                <svg class="g-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                Continuar con Google
-            </button>
-
-            <p class="register-line">¿No tienes cuenta? <a href="#">REGÍSTRATE AQUÍ</a></p>
-
-            <div class="secure-badge">
-                <i class="fas fa-shield-alt"></i> Conexión cifrada SSL · Acceso protegido
-            </div>
-
-        </div>
-    </div>
-
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="fas fa-exclamation-triangle"></i>
+  <span id="toastMsg"></span>
 </div>
 
+<!-- BOTÓN VOLVER -->
+<a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i>&nbsp;Volver</a>
+
+<!-- LOGIN WRAP -->
+<div class="login-wrap">
+
+  <!-- PANEL IZQUIERDO -->
+  <div class="l-left">
+    <div class="l-left-grid"></div>
+    <div class="l-rings">
+      <div class="l-ring lr1"></div>
+      <div class="l-ring lr2"></div>
+      <div class="l-ring lr3"></div>
+    </div>
+
+    <div class="l-logo-wrap">
+      <div class="l-logo-box"><img src="LogoUpla.png" alt="UPLA"></div>
+      <div>
+        <div class="l-title">Universidad Peruana<br>Los Andes</div>
+        <div class="l-sub">BASE DE DATOS II · 2026</div>
+        <p class="l-desc">Accede a tu portafolio académico con el material de cada unidad y semana.</p>
+      </div>
+      <div class="l-stats">
+        <div class="l-stat"><span class="l-stat-num">4</span><span class="l-stat-lbl">Unidades</span></div>
+        <div class="l-stat"><span class="l-stat-num">16</span><span class="l-stat-lbl">Semanas</span></div>
+        <div class="l-stat"><span class="l-stat-num">V</span><span class="l-stat-lbl">Ciclo</span></div>
+      </div>
+      <div class="l-badges">
+        <span class="l-badge"><i class="fas fa-map-marker-alt" style="color:var(--red)"></i> Huancayo · Perú</span>
+        <span class="l-badge"><i class="fas fa-graduation-cap" style="color:var(--mag)"></i> Ing. Sistemas</span>
+        <span class="l-badge"><i class="fas fa-shield-alt" style="color:var(--cyan)"></i> Acceso Seguro</span>
+      </div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="l-ticker">
+      <div class="l-ticker-track">
+        <div class="l-ticker-item"><span>SQL</span> Structured Query Language</div>
+        <div class="l-ticker-item"><span>NoSQL</span> MongoDB · Redis</div>
+        <div class="l-ticker-item"><span>DDL</span> Data Definition Language</div>
+        <div class="l-ticker-item"><span>ACID</span> Transactions</div>
+        <div class="l-ticker-item"><span>INDEX</span> Query Optimization</div>
+        <div class="l-ticker-item"><span>3FN</span> Normalización</div>
+        <!-- duplicado para loop -->
+        <div class="l-ticker-item"><span>SQL</span> Structured Query Language</div>
+        <div class="l-ticker-item"><span>NoSQL</span> MongoDB · Redis</div>
+        <div class="l-ticker-item"><span>DDL</span> Data Definition Language</div>
+        <div class="l-ticker-item"><span>ACID</span> Transactions</div>
+        <div class="l-ticker-item"><span>INDEX</span> Query Optimization</div>
+        <div class="l-ticker-item"><span>3FN</span> Normalización</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL DERECHO -->
+  <div class="l-right">
+    <div class="l-right-wm">DB2</div>
+
+    <div class="form-wrap">
+      <div class="form-header">
+        <div class="form-eyebrow">Acceso al Portal</div>
+        <div class="form-title">
+          INICIAR<br>
+          <span class="grad">SESIÓN<span class="terminal-cursor"></span></span>
+        </div>
+        <p class="form-sub">Ingresa tus credenciales para acceder al portafolio académico.</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+
+        <!-- Usuario -->
+        <div class="input-group">
+          <label class="input-label" for="username">Usuario o Correo</label>
+          <div class="input-field">
+            <span class="input-icon"><i class="fas fa-user"></i></span>
+            <input type="text" id="username" placeholder="usuario@upla.edu.pe" autocomplete="off">
+            <div class="input-bar"></div>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="input-group">
+          <label class="input-label" for="password">Contraseña</label>
+          <div class="input-field">
+            <span class="input-icon"><i class="fas fa-lock"></i></span>
+            <input type="password" id="password" placeholder="••••••••••" autocomplete="off">
+            <span class="toggle-pwd" id="togglePwd"><i class="fas fa-eye"></i></span>
+            <div class="input-bar"></div>
+          </div>
+          <div class="pwd-strength" id="pwdStrength">
+            <div class="pwd-bar" id="pb1"></div>
+            <div class="pwd-bar" id="pb2"></div>
+            <div class="pwd-bar" id="pb3"></div>
+            <div class="pwd-bar" id="pb4"></div>
+          </div>
+        </div>
+
+        <!-- Opciones -->
+        <div class="form-options">
+          <label class="remember-label">
+            <input type="checkbox" class="custom-check" checked> Recordarme
+          </label>
+          <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">
+          <i class="fas fa-sign-in-alt"></i>&nbsp;INGRESAR AL PORTAL
+        </button>
+      </form>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span>O continúa con</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <button class="btn-google">
+        <svg class="g-icon" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        Continuar con Google
+      </button>
+
+      <p class="register-line">¿No tienes cuenta? <a href="#">REGÍSTRATE AQUÍ</a></p>
+
+      <div class="secure-badge">
+        <i class="fas fa-shield-alt"></i> Conexión cifrada SSL · Acceso protegido
+      </div>
+    </div>
+  </div>
+
+</div><!-- fin login-wrap -->
+
 <script>
-// ── Canvas ──
-const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');
+/* ══ CANVAS ══ */
+const canvas = document.getElementById('bg-canvas');
+const ctx    = canvas.getContext('2d');
 let W,H,pts=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-resize();window.addEventListener('resize',resize);
-const COLS=['0,240,255','200,0,255','0,255,179','0,80,255'];
-function mkPt(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,a:Math.random()*.35+.06,c:COLS[Math.floor(Math.random()*COLS.length)]};}
-for(let i=0;i<140;i++)pts.push(mkPt());
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize',resize);
+const COLS=['255,0,51','255,0,170','0,255,204'];
+function mkPt(){ return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,dx:(Math.random()-.5)*.28,dy:(Math.random()-.5)*.28,a:Math.random()*.2+.04,c:COLS[Math.floor(Math.random()*3)]}; }
+for(let i=0;i<160;i++) pts.push(mkPt());
 function draw(){
-    ctx.clearRect(0,0,W,H);
-    const g=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,W*.6);
-    g.addColorStop(0,'rgba(20,0,55,.3)');g.addColorStop(1,'rgba(1,6,18,0)');
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;});
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<95){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(0,200,255,${.045*(1-d/95)})`;ctx.lineWidth=.5;ctx.stroke();}}
-    requestAnimationFrame(draw);
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();
+    p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0||p.x>W)p.dx*=-1;if(p.y<0||p.y>H)p.dy*=-1;
+  });
+  for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+    const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+    if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(255,0,51,${.05*(1-d/90)})`;ctx.lineWidth=.5;ctx.stroke();}
+  }
+  requestAnimationFrame(draw);
 }
 draw();
 
-// ── Cursor ──
-const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
-const CC=[{dot:'#00f0ff',ring:'rgba(0,240,255,.55)'},{dot:'#cc00ff',ring:'rgba(200,0,255,.55)'},{dot:'#00ffb3',ring:'rgba(0,255,179,.55)'},{dot:'#ffffff',ring:'rgba(255,255,255,.4)'},{dot:'#ff0099',ring:'rgba(255,0,153,.55)'},{dot:'#0099ff',ring:'rgba(0,153,255,.55)'}];
-let ci=0,tr=0,mx=0,my=0,rx=0,ry=0;
-function applyC(i){const c=CC[i];dot.style.background=c.dot;dot.style.boxShadow=`0 0 12px ${c.dot},0 0 24px ${c.dot}`;ring.style.borderColor=c.ring;ring.style.boxShadow=`0 0 10px ${c.ring}`;}
-applyC(0);setInterval(()=>{ci=(ci+1)%CC.length;applyC(ci);},1200);
+/* ══ CURSOR ══ */
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0,tt=0;
 document.addEventListener('mousemove',e=>{
-    mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';
-    tr++;if(tr%3===0){const t=document.createElement('div');t.className='cursor-trail';const c=CC[ci];const s=Math.random()*6+3;t.style.cssText=`left:${mx}px;top:${my}px;width:${s}px;height:${s}px;background:${c.dot};box-shadow:0 0 8px ${c.dot};`;document.body.appendChild(t);setTimeout(()=>t.remove(),650);}
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+  tt++;
+  if(tt%5===0){
+    const t=document.createElement('div');
+    t.className='cursor-trail';
+    const s=Math.random()*4+2;
+    t.style.cssText=`left:${mx}px;top:${my}px;width:${s}px;height:${s}px;background:var(--red);box-shadow:0 0 8px var(--red)`;
+    document.body.appendChild(t);setTimeout(()=>t.remove(),500);
+  }
 });
-function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
-animRing();
-document.querySelectorAll('a,button,input,label,.l-stat').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cur-hover'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-hover'));});
-document.addEventListener('mousedown',()=>document.body.classList.add('cur-click'));
-document.addEventListener('mouseup',()=>document.body.classList.remove('cur-click'));
+(function ar(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,input,label,.l-stat').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+document.addEventListener('mouseup',  ()=>document.body.classList.remove('cursor-click'));
+document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0'});
+document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1'});
 
-// ── Toggle password ──
+/* ══ TOGGLE PASSWORD ══ */
 document.getElementById('togglePwd').addEventListener('click',function(){
-    const pwd=document.getElementById('password');
-    const icon=this.querySelector('i');
-    if(pwd.type==='password'){pwd.type='text';icon.className='fas fa-eye-slash';}
-    else{pwd.type='password';icon.className='fas fa-eye';}
+  const pwd=document.getElementById('password');
+  const icon=this.querySelector('i');
+  if(pwd.type==='password'){ pwd.type='text'; icon.className='fas fa-eye-slash'; }
+  else { pwd.type='password'; icon.className='fas fa-eye'; }
 });
 
-// ── Password strength ──
+/* ══ FUERZA CONTRASEÑA ══ */
 document.getElementById('password').addEventListener('input',function(){
-    const v=this.value,bars=document.querySelectorAll('.pwd-bar');
-    let strength=0;
-    if(v.length>4)strength++;if(v.length>8)strength++;
-    if(/[A-Z]/.test(v)&&/[0-9]/.test(v))strength++;
-    if(/[^a-zA-Z0-9]/.test(v))strength++;
-    bars.forEach((b,i)=>{b.className='pwd-bar';if(i<strength)b.classList.add('active-'+strength);});
+  const v=this.value; let s=0;
+  if(v.length>4) s++;
+  if(v.length>8) s++;
+  if(/[A-Z]/.test(v)&&/[0-9]/.test(v)) s++;
+  if(/[^a-zA-Z0-9]/.test(v)) s++;
+  document.querySelectorAll('.pwd-bar').forEach((b,i)=>{
+    b.className='pwd-bar';
+    if(i<s) b.classList.add('active-'+s);
+  });
 });
 
-// ── Submit ──
+/* ══ TOAST ══ */
+function showToast(msg,type='error'){
+  const t=document.getElementById('toast');
+  t.className=`toast ${type}`;
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* ══ SUBMIT ══ */
 document.getElementById('loginForm').addEventListener('submit',function(e){
-    e.preventDefault();
-    const btn=document.querySelector('.btn-submit');
-    btn.querySelector('.btn-content').innerHTML='<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
-    btn.disabled=true;
-    setTimeout(()=>{ window.location.href='unidades.html'; },1600);
+  e.preventDefault();
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value;
+  const btn=document.getElementById('btnSubmit');
+
+  if(!u){ showToast('Ingresa tu usuario o correo'); return; }
+  if(!p){ showToast('Ingresa tu contraseña'); return; }
+
+  btn.disabled=true;
+  btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>&nbsp;VERIFICANDO...';
+
+  setTimeout(()=>{
+    showToast('¡Acceso concedido!','success');
+    setTimeout(()=>window.location.href='unidades.html',800);
+  },1500);
 });
+
+/* ══ ENTER en usuario → foco contraseña ══ */
+document.getElementById('username').addEventListener('keydown',e=>{
+  if(e.key==='Enter') document.getElementById('password').focus();
+});
+
+/* ══ GLITCH en título ══ */
+const titleGrad=document.querySelector('.form-title .grad');
+if(titleGrad){
+  setInterval(()=>{
+    if(Math.random()<.15){
+      titleGrad.style.textShadow='3px 0 rgba(0,255,204,.5),-3px 0 rgba(255,0,51,.5)';
+      setTimeout(()=>titleGrad.style.textShadow='',100+Math.random()*100);
+    }
+  },2000);
+}
 </script>
 </body>
 </html>

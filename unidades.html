@@ -704,8 +704,16 @@ const pdfs={
     {archivo:'NORMALIZACION DE FICHA INVENTARIO.pdf',titulo:'Normalización de Ficha Inventario'},
     {archivo:'Introduccion a SQL.pdf',titulo:'Introducción a SQL Server 2022'}
   ],
-  'u2s2':[{archivo:'Tablas de Microsoft SQL Server.pdf',titulo:'Tablas de Microsoft SQL Server'}],
-  'u2s3':[{archivo:'Operaciones de Mantenimiento de Datos.pdf',titulo:'Operaciones de Mantenimiento de Datos'}],
+  'u2s2':[
+    {archivo:'Tablas de Microsoft SQL Server.pdf',titulo:'Tablas de Microsoft SQL Server'},
+    {archivo:'Creacion de la base de datos.sql',titulo:'Creación de la Base de Datos'},
+    {archivo:'Creacion de las tablas.sql',titulo:'Creación de las Tablas'},
+    {archivo:'Insertar datos.sql',titulo:'Insertar Datos'}
+  ],
+  'u2s3':[
+    {archivo:'Operaciones de Mantenimiento de Datos.pdf',titulo:'Operaciones de Mantenimiento de Datos'},
+    {archivo:'Consultas.sql',titulo:'Consultas'}
+  ],
 };
 
 const unidadInfo={
@@ -734,6 +742,15 @@ function mostrarUnidad(num){
   generarSemanas(num);
 }
 
+function getIconoArchivo(archivo){
+  if(!archivo) return 'fa-file';
+  const ext=archivo.split('.').pop().toLowerCase();
+  if(ext==='pdf') return 'fa-file-pdf';
+  if(ext==='sql') return 'fa-database';
+  if(['png','jpg','jpeg','gif','webp'].includes(ext)) return 'fa-image';
+  return 'fa-file';
+}
+
 function generarSemanas(n){
   const c=document.getElementById('contenidoSemanas');
   c.innerHTML='';
@@ -756,7 +773,7 @@ function generarSemanas(n){
     let desc='Sin contenido aún';
     if(tiene){
       if(esArr){
-        const n=data.filter(d=>d.tipo!=='imagen').length;
+        const n=data.length;
         desc=`${n} archivo${n!==1?'s':''} disponible${n!==1?'s':''}`;
       } else {desc=data.titulo;}
     }
@@ -768,7 +785,7 @@ function generarSemanas(n){
         botonesHTML=`<div class="semana-files-list">`+
           data.map((p,idx)=>`
             <button onclick="abrirVisor('${key}',${idx})" class="btn-semana">
-              <span class="btn-icon"><i class="fas ${p.tipo==='imagen'?'fa-image':'fa-file-pdf'}"></i></span>
+              <span class="btn-icon"><i class="fas ${p.tipo==='imagen'?'fa-image':getIconoArchivo(p.archivo)}"></i></span>
               <span class="btn-semana-text">${p.titulo}</span>
               <i class="fas fa-chevron-right btn-semana-arrow"></i>
             </button>`).join('')+`</div>`;
@@ -820,13 +837,29 @@ function abrirVisor(key,idx){
   const data=pdfs[key];if(!data)return;
   const item=Array.isArray(data)?data[idx]:data;
   const esImg=item.tipo==='imagen';
+  const ext=item.archivo.split('.').pop().toLowerCase();
+  const esSql=ext==='sql';
+
   document.getElementById('visorTitulo').textContent=item.titulo;
   document.getElementById('btnDescargar').href=item.archivo;
   const iframe=document.getElementById('iframePDF');
   const img=document.getElementById('visorImagen');
   const icono=document.getElementById('visorIcono');
-  if(esImg){iframe.style.display='none';iframe.src='';img.src=item.archivo;img.style.display='block';icono.className='fas fa-image';}
-  else{img.style.display='none';img.src='';iframe.src=item.archivo;iframe.style.display='block';icono.className='fas fa-file-pdf';}
+
+  if(esImg){
+    iframe.style.display='none';iframe.src='';
+    img.src=item.archivo;img.style.display='block';
+    icono.className='fas fa-image';
+  } else if(esSql){
+    img.style.display='none';img.src='';
+    iframe.src=item.archivo;iframe.style.display='block';
+    icono.className='fas fa-database';
+  } else {
+    img.style.display='none';img.src='';
+    iframe.src=item.archivo;iframe.style.display='block';
+    icono.className='fas fa-file-pdf';
+  }
+
   const v=document.getElementById('visorPDF');
   v.style.display='flex';v.style.flexDirection='column';
   setTimeout(()=>v.scrollIntoView({behavior:'smooth',block:'start'}),50);

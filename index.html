@@ -1,100 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Académico - Base de Datos II</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        /* Estilos adicionales para la sección "Sobre mí" (coherentes con el theme) */
-        .sobre-mi-section {
-            position: relative;
-            z-index: 2;
-            padding: 80px 80px 60px;
-        }
-
-        .sobre-mi-contenedor {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            background: rgba(4, 10, 28, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            padding: 48px;
-            margin-top: 30px;
-        }
-
-        .sobre-mi-texto {
-            flex: 1.2;
-        }
-
-        .sobre-mi-texto p {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: var(--muted, rgba(180,215,255,0.55));
-            margin-bottom: 18px;
-        }
-
-        .sobre-mi-texto strong {
-            color: var(--cyan, #00f0ff);
-        }
-
-        .sobre-mi-contacto {
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0, 240, 255, 0.2);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--muted, rgba(180,215,255,0.55));
-        }
-
-        .sobre-mi-contacto i {
-            width: 28px;
-            color: var(--cyan, #00f0ff);
-            margin-right: 8px;
-        }
-
-        .sobre-mi-imagen {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
-        }
-
-        .sobre-mi-imagen img {
-            width: 100%;
-            max-width: 280px;
-            border-radius: 24px;
-            border: 2px solid rgba(0, 240, 255, 0.4);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            object-fit: cover;
-        }
-
-        .sobre-mi-imagen img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .sobre-mi-section {
-                padding: 60px 20px;
-            }
-            .sobre-mi-contenedor {
-                flex-direction: column;
-                padding: 32px;
-                gap: 32px;
-            }
-            .sobre-mi-imagen img {
-                max-width: 200px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PORTAFOLIO · DB2 · VILCHEZ</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
 
-<!-- CURSOR PERSONALIZADO -->
+<!-- MARCOS ESQUINA -->
+<div class="cf tl"></div>
+<div class="cf tr"></div>
+<div class="cf bl"></div>
+<div class="cf br"></div>
+
+<!-- CURSOR -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -102,349 +23,371 @@
 <div class="grid-overlay"></div>
 <div class="scanner-line"></div>
 
+<!-- BARRA DE ESTADO -->
+<div class="statusbar">
+  <div class="sb-item"><div class="sb-dot"></div> SYSTEM ONLINE</div>
+  <span class="sb-sep">|</span>
+  <div class="sb-item"><div class="sb-dot g"></div> DB2 · UPLA · 2026</div>
+  <span class="sb-sep">|</span>
+  <div class="sb-item">VILCHEZ ESTRADA</div>
+  <span class="sb-sep">|</span>
+  <div class="sb-item">ING. SISTEMAS Y COMP.</div>
+  <div class="sb-clock" id="sb-clock">--:--:--</div>
+</div>
+
 <!-- NAVBAR -->
 <header class="navbar">
-    <div class="navbar-brand">
-        <div class="brand-logo"><img src="LogoUpla.png" alt="UPLA"></div>
-        <div class="brand-text">
-            <span class="brand-title">Universidad Peruana Los Andes</span>
-            <span class="brand-sub">Portafolio · Base de Datos II</span>
-        </div>
+  <div class="navbar-brand">
+    <div class="brand-logo"><img src="LogoUpla.png" alt="UPLA"></div>
+    <div class="brand-text">
+      <span class="brand-title">Univ. Peruana Los Andes</span>
+      <span class="brand-sub">portafolio · base de datos ii</span>
     </div>
-    <nav class="navbar-links">
-        <a href="#" class="activo">Inicio</a>
-        <a href="unidades.html">Unidad I</a>
-        <a href="unidades.html">Unidad II</a>
-        <a href="unidades.html">Unidad III</a>
-        <a href="unidades.html">Unidad IV</a>
-        <a href="#sobre-mi">Sobre mí</a>
-    </nav>
-    <div class="navbar-actions">
-        <a href="login.html" class="btn-ingresar"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
-        <div class="avatar-circle">V</div>
-    </div>
+  </div>
+  <nav class="navbar-links">
+    <a href="#" class="activo">Inicio</a>
+    <a href="unidades.html">Unidad I</a>
+    <a href="unidades.html">Unidad II</a>
+    <a href="unidades.html">Unidad III</a>
+    <a href="unidades.html">Unidad IV</a>
+    <a href="#sobre-mi">Sobre mí</a>
+  </nav>
+  <div class="navbar-actions">
+    <a href="login.html" class="btn-ingresar"><i class="fas fa-sign-in-alt"></i> Ingresar</a>
+    <div class="avatar-circle">V</div>
+  </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+  <div class="hero-watermark">DB2</div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-    <div class="hero-content">
-        <div class="badge-ciclo">
-            <div class="badge-dot"></div>
-            <i class="fas fa-graduation-cap"></i> Ciclo Académico 2026 · UPLA
-        </div>
-        <p class="hero-nombre">Vilchez Estrada Diego Michael</p>
-        <div class="hero-title">
-            <span class="title-white">Portafolio</span>
-            <span class="title-neon">Base de Datos II</span>
-        </div>
-        <p class="hero-desc">
-            Plataforma académica de la carrera de <strong>Ingeniería de Sistemas y Computación</strong>.<br>
-            Accede al material de cada semana y descarga los recursos.
-        </p>
-        <div class="hero-btns">
-            <a href="unidades.html" class="btn-prim">
-                <span class="shine"></span>
-                <i class="fas fa-rocket"></i> Explorar Unidades
-            </a>
-            <a href="login.html" class="btn-sec">
-                <i class="fas fa-door-open"></i> Ingresar al Portal
-            </a>
-        </div>
-        <div class="hero-tags">
-            <span class="htag c"><i class="fas fa-layer-group"></i> 4 Unidades</span>
-            <span class="htag m"><i class="fas fa-calendar-alt"></i> 16 Semanas</span>
-            <span class="htag t"><i class="fas fa-map-marker-alt"></i> Huancayo · Perú</span>
-            <span class="htag"><i class="fas fa-star"></i> 2026</span>
-        </div>
+  <div class="hero-content reveal">
+    <div class="badge-ciclo">
+      <div class="badge-dot"></div>
+      <i class="fas fa-graduation-cap"></i> Ciclo 2026 &nbsp;·&nbsp; UPLA &nbsp;·&nbsp; Huancayo
     </div>
 
-    <div class="hero-visual">
-        <div class="holo-scene">
-            <div class="halo-ring hr1"></div>
-            <div class="halo-ring hr2"></div>
-            <div class="halo-ring hr3"></div>
-            <div class="cloud-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-            <div class="float-label fl-nosql">NoSQL</div>
-            <div class="float-label fl-sql">SQL</div>
-            <div class="float-label fl-nos">NoS...</div>
-            <div class="stack-wrap">
-                <div class="slab slab-1">
-                    <div class="slab-body"></div>
-                    <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-database"></i> SQL Server</div>
-                </div>
-                <div class="slab-arrow"></div>
-                <div class="slab slab-2">
-                    <div class="slab-body"></div>
-                    <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-server"></i> PostgreSQL</div>
-                </div>
-                <div class="slab-arrow"></div>
-                <div class="slab slab-3">
-                    <div class="slab-body"></div>
-                    <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-leaf"></i> MongoDB</div>
-                </div>
-            </div>
-            <div class="data-stream ds1"></div>
-            <div class="data-stream ds2"></div>
-            <div class="data-stream ds3"></div>
-            <div class="data-stream ds4"></div>
-            <div class="data-stream ds5"></div>
-            <div class="floor-grid"></div>
-            <div class="platform"></div>
-            <div class="vp vp1"></div>
-            <div class="vp vp2"></div>
-            <div class="vp vp3"></div>
-            <div class="vp vp4"></div>
-            <div class="vp vp5"></div>
-        </div>
+    <p class="hero-nombre">Vilchez Estrada Diego Michael</p>
+
+    <div class="hero-title">
+      <span class="title-small">PORTAFOLIO</span>
+      <span class="title-neon" data-text="BASE DE DATOS">BASE DE DATOS</span>
+      <span class="title-outline">AVANZADO</span>
+      <span class="title-surname">VILCHEZ ESTRADA DIEGO MICHAEL</span>
     </div>
+
+    <p class="hero-desc">
+      Plataforma académica de <strong>Ingeniería de Sistemas y Computación</strong>.
+      Explora el material de cada semana, recursos y actividades del ciclo académico <strong>2026</strong>.
+    </p>
+
+    <div class="hero-btns">
+      <a href="unidades.html" class="btn-prim">
+        <i class="fas fa-rocket"></i>&nbsp; Explorar Unidades
+      </a>
+      <a href="login.html" class="btn-sec">
+        <i class="fas fa-door-open"></i>&nbsp; Ingresar
+      </a>
+    </div>
+
+    <div class="hero-tags">
+      <div class="htag c"><i class="fas fa-layer-group"></i> 4 Unidades</div>
+      <div class="htag m"><i class="fas fa-calendar-week"></i> 16 Semanas</div>
+      <div class="htag t"><i class="fas fa-map-marker-alt"></i> Huancayo</div>
+      <div class="htag y"><i class="fas fa-code"></i> Ing. Sistemas</div>
+    </div>
+  </div>
+
+  <!-- VISUAL DERECHO -->
+  <div class="hero-visual reveal" style="transition-delay:.18s">
+    <div class="holo-scene">
+      <div class="halo-ring hr1"></div>
+      <div class="halo-ring hr2"></div>
+      <div class="halo-ring hr3"></div>
+      <div class="cloud-icon"><i class="fas fa-database"></i></div>
+      <div class="float-label fl-nosql"><i class="fas fa-circle" style="font-size:.38rem;margin-right:4px"></i>SQL Server</div>
+      <div class="float-label fl-sql"><i class="fas fa-circle"   style="font-size:.38rem;margin-right:4px"></i>PostgreSQL</div>
+      <div class="float-label fl-nos"><i class="fas fa-circle"   style="font-size:.38rem;margin-right:4px"></i>MongoDB</div>
+      <div class="stack-wrap">
+        <div class="slab slab-1">
+          <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-server"></i> SQL Server</div>
+        </div>
+        <div class="slab-arrow"></div>
+        <div class="slab slab-2">
+          <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-database"></i> PostgreSQL</div>
+        </div>
+        <div class="slab-arrow"></div>
+        <div class="slab slab-3">
+          <div class="slab-inner"><span class="slab-dot"></span><i class="fas fa-leaf"></i> MongoDB</div>
+        </div>
+      </div>
+      <div class="data-stream ds1"></div>
+      <div class="data-stream ds2"></div>
+      <div class="data-stream ds3"></div>
+      <div class="data-stream ds4"></div>
+      <div class="data-stream ds5"></div>
+      <div class="floor-grid"></div>
+      <div class="platform"></div>
+      <div class="vp vp1"></div>
+      <div class="vp vp2"></div>
+      <div class="vp vp3"></div>
+      <div class="vp vp4"></div>
+      <div class="vp vp5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>SQL</span> Structured Query Language</div>
+    <div class="marquee-item"><span>NoSQL</span> Bases de Datos No Relacionales</div>
+    <div class="marquee-item"><span>DDL</span> Data Definition Language</div>
+    <div class="marquee-item"><span>DML</span> Data Manipulation Language</div>
+    <div class="marquee-item"><span>ACID</span> Atomicidad · Consistencia · Aislamiento · Durabilidad</div>
+    <div class="marquee-item"><span>ER</span> Modelado Entidad-Relación</div>
+    <div class="marquee-item"><span>3FN</span> Normalización en Tercera Forma Normal</div>
+    <div class="marquee-item"><span>INDEX</span> Optimización de Consultas</div>
+    <!-- duplicado para loop continuo -->
+    <div class="marquee-item"><span>SQL</span> Structured Query Language</div>
+    <div class="marquee-item"><span>NoSQL</span> Bases de Datos No Relacionales</div>
+    <div class="marquee-item"><span>DDL</span> Data Definition Language</div>
+    <div class="marquee-item"><span>DML</span> Data Manipulation Language</div>
+    <div class="marquee-item"><span>ACID</span> Atomicidad · Consistencia · Aislamiento · Durabilidad</div>
+    <div class="marquee-item"><span>ER</span> Modelado Entidad-Relación</div>
+    <div class="marquee-item"><span>3FN</span> Normalización en Tercera Forma Normal</div>
+    <div class="marquee-item"><span>INDEX</span> Optimización de Consultas</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section reveal">
+  <div class="stat-cell">
+    <span class="stat-num">04</span>
+    <span class="stat-label">Unidades del curso</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">16</span>
+    <span class="stat-label">Semanas académicas</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">03</span>
+    <span class="stat-label">Motores de BD</span>
+  </div>
+  <div class="stat-cell">
+    <span class="stat-num">V</span>
+    <span class="stat-label">Ciclo académico</span>
+  </div>
 </section>
 
 <!-- UNIDADES -->
 <section class="unidades-section">
-    <div class="section-header">
-        <div class="section-line"></div>
-        <h2 class="section-title"><span>Unidades</span> del Curso</h2>
-        <div class="section-line"></div>
-    </div>
-    <div class="unidades-grid">
-        <a href="unidades.html" class="ucard">
-            <div class="ucard-glow"></div>
-            <div class="ucard-header"><span class="unum">I</span><span class="ubadge">4 semanas</span></div>
-            <h3>Introducción a Bases de Datos</h3>
-            <p>Fundamentos, modelo relacional, SQL básico y DDL.</p>
-            <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
-            <div class="ubar"></div>
-        </a>
-        <a href="unidades.html" class="ucard">
-            <div class="ucard-glow"></div>
-            <div class="ucard-header"><span class="unum">II</span><span class="ubadge">4 semanas</span></div>
-            <h3>Diseño y Normalización</h3>
-            <p>Modelado ER, formas normales e integridad referencial.</p>
-            <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
-            <div class="ubar"></div>
-        </a>
-        <a href="unidades.html" class="ucard">
-            <div class="ucard-glow"></div>
-            <div class="ucard-header"><span class="unum">III</span><span class="ubadge">4 semanas</span></div>
-            <h3>SQL Avanzado</h3>
-            <p>Procedimientos, vistas, triggers y optimización.</p>
-            <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
-            <div class="ubar"></div>
-        </a>
-        <a href="unidades.html" class="ucard">
-            <div class="ucard-glow"></div>
-            <div class="ucard-header"><span class="unum">IV</span><span class="ubadge">4 semanas</span></div>
-            <h3>Bases de Datos NoSQL</h3>
-            <p>MongoDB, Redis, comparativas y casos de uso reales.</p>
-            <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
-            <div class="ubar"></div>
-        </a>
-    </div>
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-eyebrow">Unidades del Curso</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="unidades-grid">
+    <a href="unidades.html" class="ucard reveal" style="transition-delay:.05s">
+      <div class="ucard-header">
+        <span class="ubadge">4 semanas</span>
+      </div>
+      <div class="unum">I</div>
+      <h3>Introducción a Bases de Datos</h3>
+      <p>Fundamentos del modelo relacional, SQL básico y lenguaje de definición de datos.</p>
+      <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="unidades.html" class="ucard reveal" style="transition-delay:.12s">
+      <div class="ucard-header">
+        <span class="ubadge">4 semanas</span>
+      </div>
+      <div class="unum">II</div>
+      <h3>Diseño y Normalización</h3>
+      <p>Modelado entidad-relación, formas normales e integridad referencial.</p>
+      <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="unidades.html" class="ucard reveal" style="transition-delay:.2s">
+      <div class="ucard-header">
+        <span class="ubadge">4 semanas</span>
+      </div>
+      <div class="unum">III</div>
+      <h3>SQL Avanzado</h3>
+      <p>Procedimientos almacenados, vistas, triggers y estrategias de optimización.</p>
+      <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="unidades.html" class="ucard reveal" style="transition-delay:.28s">
+      <div class="ucard-header">
+        <span class="ubadge">4 semanas</span>
+      </div>
+      <div class="unum">IV</div>
+      <h3>Bases de Datos NoSQL</h3>
+      <p>MongoDB, Redis, comparativas y casos de uso en sistemas modernos.</p>
+      <div class="uver">Ver material <i class="fas fa-arrow-right"></i></div>
+    </a>
+  </div>
 </section>
 
-<!-- ====================== SECCIÓN: SOBRE MÍ ====================== -->
+<!-- SOBRE MÍ -->
 <section id="sobre-mi" class="sobre-mi-section">
-    <div class="section-header">
-        <div class="section-line"></div>
-        <h2 class="section-title"><span>Sobre</span> Mí</h2>
-        <div class="section-line"></div>
+  <div class="section-header reveal">
+    <div class="section-line"></div>
+    <div class="section-eyebrow">Sobre el Autor</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="sobre-mi-contenedor reveal" style="transition-delay:.1s">
+    <div class="sobre-mi-texto">
+      <p>Soy estudiante de <strong>Ingeniería de Sistemas y Computación</strong> en la <strong>Universidad Peruana Los Andes</strong>, cursando el <strong>V ciclo</strong>. Me caracterizo por mi responsabilidad, proactividad y compromiso con el aprendizaje continuo, adaptándome rápidamente a nuevos retos tecnológicos.</p>
+      <p>Enfocado en el área de <strong>desarrollo de software</strong>, fortaleciendo mis habilidades en programación, resolución de problemas y trabajo en equipo para diseñar soluciones eficientes e innovadoras.</p>
+      <div class="sobre-mi-contacto">
+        <div class="contact-item"><i class="fas fa-envelope"></i> diego.vilchez@upla.edu.pe</div>
+        <div class="contact-item"><i class="fab fa-github"></i> github.com/diegovilchez</div>
+        <div class="contact-item"><i class="fab fa-linkedin"></i> linkedin.com/in/diegovilchez</div>
+      </div>
     </div>
-    <div class="sobre-mi-contenedor">
-        <div class="sobre-mi-texto">
-            <p>Soy estudiante de <strong>Ingeniería de Sistemas y Computación</strong> en la <strong>Universidad Peruana Los Andes</strong>, actualmente cursando el <strong>V ciclo</strong> de mi formación académica. Me caracterizo por mi responsabilidad, proactividad y compromiso con el aprendizaje continuo, lo que me permite adaptarme rápidamente a nuevos retos y entornos tecnológicos.</p>
-            <p>Me encuentro enfocado en desarrollarme en el área de <strong>desarrollo de software</strong>, fortaleciendo constantemente mis habilidades en programación, resolución de problemas y trabajo en equipo. Mi objetivo es adquirir experiencia práctica que me permita diseñar e implementar soluciones eficientes, innovadoras y de alto impacto.</p>
-            <div class="sobre-mi-contacto">
-                <i class="fas fa-envelope"></i> diego.vilchez@upla.edu.pe<br>
-                <i class="fab fa-github"></i> github.com/diegovilchez<br>
-                <i class="fab fa-linkedin"></i> linkedin.com/in/diegovilchez
-            </div>
-        </div>
-        <div class="sobre-mi-imagen">
-            <!-- Tu foto real -->
-            <img src="imageperfil.jpg" alt="Diego Michael Vilchez Estrada">
-        </div>
+    <div class="sobre-mi-imagen">
+      <img src="imageperfil.jpg" alt="Diego Michael Vilchez Estrada">
     </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-    <div class="footer-inner">
-        <div class="footer-logo"><img src="LogoUpla.png" alt="UPLA"></div>
-        <div class="footer-info">
-            <span class="fbrand">UPLA</span>
-            <span class="fsep">·</span>
-            <span>Portafolio Base de Datos II</span>
-            <span class="fsep">·</span>
-            <span class="fname">Vilchez Estrada Diego Michael</span>
-            <span class="fsep">·</span>
-            <span>Ing. Sistemas y Computación</span>
-            <span class="fsep">·</span>
-            <span>© 2026</span>
-        </div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><img src="LogoUpla.png" alt="UPLA"></div>
+      <span class="footer-name">UPLA</span>
     </div>
+    <div class="footer-meta">
+      <span>Portafolio Base de Datos II</span>
+      <span class="fsep">·</span>
+      <span>Vilchez Estrada Diego Michael</span>
+      <span class="fsep">·</span>
+      <span>Ing. Sistemas y Computación</span>
+      <span class="fsep">·</span>
+      <span>© 2026</span>
+    </div>
+  </div>
 </footer>
 
 <script>
-// ====================== FONDO ANIMADO (PARTÍCULAS) ======================
+/* ── CANVAS PARTÍCULAS ── */
 const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
+const ctx    = canvas.getContext('2d');
 let W, H, pts = [];
-
-function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-}
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
 
-const COLORS = ['0,240,255', '200,0,255', '0,255,179', '0,80,255'];
-
-function mkPt() {
-    return {
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 1.7 + 0.3,
-        dx: (Math.random() - 0.5) * 0.38,
-        dy: (Math.random() - 0.5) * 0.38,
-        a: Math.random() * 0.38 + 0.07,
-        c: COLORS[Math.floor(Math.random() * COLORS.length)]
-    };
+const COLS = ['255,0,51','255,0,170','0,255,204'];
+function mkPt(){
+  return {
+    x:Math.random()*W, y:Math.random()*H,
+    r:Math.random()*1.4+.2,
+    dx:(Math.random()-.5)*.22, dy:(Math.random()-.5)*.22,
+    a:Math.random()*.2+.04,
+    c:COLS[Math.floor(Math.random()*COLS.length)]
+  };
 }
+for(let i=0;i<160;i++) pts.push(mkPt());
 
-for (let i = 0; i < 180; i++) pts.push(mkPt());
-
-function draw() {
-    ctx.clearRect(0, 0, W, H);
-    const g = ctx.createRadialGradient(W * 0.28, H * 0.42, 0, W * 0.28, H * 0.42, W * 0.72);
-    g.addColorStop(0, 'rgba(30,0,70,0.25)');
-    g.addColorStop(0.5, 'rgba(0,10,50,0.15)');
-    g.addColorStop(1, 'rgba(1,6,18,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-
-    pts.forEach(p => {
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${p.c},${p.a})`;
+    ctx.fill();
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>W) p.dx*=-1;
+    if(p.y<0||p.y>H) p.dy*=-1;
+  });
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<80){
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.c},${p.a})`;
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0 || p.x > W) p.dx *= -1;
-        if (p.y < 0 || p.y > H) p.dy *= -1;
-    });
-
-    for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-            const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
-            if (d < 105) {
-                ctx.beginPath();
-                ctx.moveTo(pts[i].x, pts[i].y);
-                ctx.lineTo(pts[j].x, pts[j].y);
-                ctx.strokeStyle = `rgba(0,200,255,${0.055 * (1 - d / 105)})`;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-            }
-        }
+        ctx.moveTo(pts[i].x,pts[i].y);
+        ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(255,0,51,${.04*(1-d/80)})`;
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
     }
-    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
 }
 draw();
 
-// Movimiento de orbes con el mouse
-document.addEventListener('mousemove', e => {
-    const x = (e.clientX / W - 0.5) * 28;
-    const y = (e.clientY / H - 0.5) * 28;
-    document.querySelectorAll('.orb').forEach((o, i) => {
-        o.style.transform = `translate(${x * (i + 1) * 0.35}px, ${y * (i + 1) * 0.35}px)`;
-    });
+/* ── PARALLAX ORBES CON MOUSE ── */
+document.addEventListener('mousemove', e=>{
+  const x=(e.clientX/window.innerWidth-.5)*22;
+  const y=(e.clientY/window.innerHeight-.5)*22;
+  document.querySelectorAll('.orb').forEach((o,i)=>{
+    o.style.transform=`translate(${x*(i+1)*.35}px,${y*(i+1)*.35}px)`;
+  });
 });
 
-// ====================== CURSOR PERSONALIZADO ======================
-const dot = document.getElementById('cursorDot');
+/* ── CURSOR ── */
+const dot  = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0,tt=0;
 
-const cursorColors = [
-    { dot: '#00f0ff', ring: 'rgba(0,240,255,0.55)' },
-    { dot: '#cc00ff', ring: 'rgba(200,0,255,0.55)' },
-    { dot: '#00ffb3', ring: 'rgba(0,255,179,0.55)' },
-    { dot: '#ffffff', ring: 'rgba(255,255,255,0.4)' },
-    { dot: '#ff0099', ring: 'rgba(255,0,153,0.55)' },
-    { dot: '#0099ff', ring: 'rgba(0,153,255,0.55)' },
-];
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+  tt++;
+  if(tt%6===0){
+    const t=document.createElement('div');
+    t.className='cursor-trail';
+    const s=Math.random()*3+1.5;
+    t.style.cssText=`left:${mx}px;top:${my}px;width:${s}px;height:${s}px;background:var(--red);box-shadow:0 0 8px var(--red)`;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),500);
+  }
+});
+(function ar(){ rx+=(mx-rx)*.1; ry+=(my-ry)*.1; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(ar); })();
 
-let colorIdx = 0;
-let trailTimer = 0;
-let mx = 0, my = 0;
-let rx = 0, ry = 0;
+document.querySelectorAll('a,button,.ucard,.stat-cell,.htag').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
+document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+document.addEventListener('mouseup',  ()=>document.body.classList.remove('cursor-click'));
+document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0'});
+document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1'});
 
-function applyColor(idx) {
-    const c = cursorColors[idx];
-    dot.style.background = c.dot;
-    dot.style.boxShadow = `0 0 12px ${c.dot}, 0 0 24px ${c.dot}`;
-    ring.style.borderColor = c.ring;
-    ring.style.boxShadow = `0 0 10px ${c.ring}`;
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.08});
+document.querySelectorAll('.reveal,.reveal-left').forEach(r=>obs.observe(r));
+
+/* ── RELOJ STATUSBAR ── */
+function updateClock(){
+  const n=new Date();
+  const h=String(n.getHours()).padStart(2,'0');
+  const m=String(n.getMinutes()).padStart(2,'0');
+  const s=String(n.getSeconds()).padStart(2,'0');
+  const el=document.getElementById('sb-clock');
+  if(el) el.textContent=`${h}:${m}:${s}`;
 }
-applyColor(0);
+setInterval(updateClock,1000);
+updateClock();
 
-setInterval(() => {
-    colorIdx = (colorIdx + 1) % cursorColors.length;
-    applyColor(colorIdx);
-}, 1200);
-
-document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    dot.style.left = mx + 'px';
-    dot.style.top = my + 'px';
-
-    trailTimer++;
-    if (trailTimer % 3 === 0) {
-        const trail = document.createElement('div');
-        trail.className = 'cursor-trail';
-        const c = cursorColors[colorIdx];
-        const size = Math.random() * 6 + 3;
-        trail.style.cssText = `
-            left: ${mx}px; top: ${my}px;
-            width: ${size}px; height: ${size}px;
-            background: ${c.dot};
-            box-shadow: 0 0 8px ${c.dot};
-            opacity: 0.7;
-        `;
-        document.body.appendChild(trail);
-        setTimeout(() => trail.remove(), 650);
+/* ── GLITCH HEADING ── */
+const heading=document.querySelector('.title-neon');
+if(heading){
+  setInterval(()=>{
+    if(Math.random()<.15){
+      heading.style.textShadow='3px 0 rgba(0,255,204,.6),-3px 0 rgba(255,0,51,.6),0 0 40px rgba(255,0,51,.35)';
+      setTimeout(()=>heading.style.textShadow='',80+Math.random()*120);
     }
-});
-
-function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
+  },1800);
 }
-animateRing();
-
-const interactivos = 'a, button, [onclick], input, label, .ucard, .btn-unidad, .slab, .btn-semana, .btn-salir, .btn-ingresar, .avatar-circle';
-document.querySelectorAll(interactivos).forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-});
-
-document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
-
-document.addEventListener('mouseleave', () => {
-    dot.style.opacity = '0';
-    ring.style.opacity = '0';
-});
-document.addEventListener('mouseenter', () => {
-    dot.style.opacity = '1';
-    ring.style.opacity = '1';
-});
 </script>
 </body>
 </html>

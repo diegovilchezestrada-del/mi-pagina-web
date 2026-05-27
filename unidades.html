@@ -487,6 +487,27 @@
 }
 .visor-titulo i { font-size: .9rem; margin-right: 4px; }
 
+/* ── VISOR SQL ── */
+#visorSQL {
+  display: none;
+  font-family: 'Courier New', monospace;
+  font-size: .82rem;
+  color: #a0a0b0;
+  background: rgba(0,0,0,0.6);
+  padding: 28px 32px;
+  margin: 0;
+  overflow: auto;
+  max-height: 600px;
+  white-space: pre;
+  line-height: 1.7;
+  border: none;
+  tab-size: 4;
+}
+#visorSQL::-webkit-scrollbar { width: 6px; height: 6px; }
+#visorSQL::-webkit-scrollbar-track { background: rgba(255,0,51,.04); }
+#visorSQL::-webkit-scrollbar-thumb { background: rgba(255,0,51,.3); border-radius: 3px; }
+#visorSQL::-webkit-scrollbar-thumb:hover { background: rgba(255,0,51,.5); }
+
 /* ── CONTENIDO UNIDADES padding ── */
 .contenido-unidades {
   padding: 36px 44px 60px;
@@ -639,7 +660,7 @@
     <!-- GRID SEMANAS -->
     <div id="contenidoSemanas"></div>
 
-    <!-- VISOR PDF / IMAGEN -->
+    <!-- VISOR PDF / IMAGEN / SQL -->
     <div id="visorPDF" class="visor-pdf-container" style="display:none">
       <div class="visor-scan-line"></div>
       <div class="visor-header">
@@ -660,6 +681,7 @@
       </div>
       <iframe id="iframePDF" src="" class="visor-iframe"></iframe>
       <img id="visorImagen" src="" class="visor-iframe" style="display:none;object-fit:contain;background:#000">
+      <pre id="visorSQL"></pre>
     </div>
 
   </main>
@@ -833,45 +855,64 @@ function generarSemanas(n){
   document.getElementById('chipDisp').innerHTML=`<i class="fas fa-check-circle"></i> ${disponibles}/4 Disponibles`;
 }
 
-function abrirVisor(key,idx){
-  const data=pdfs[key];if(!data)return;
-  const item=Array.isArray(data)?data[idx]:data;
-  const esImg=item.tipo==='imagen';
-  const ext=item.archivo.split('.').pop().toLowerCase();
-  const esSql=ext==='sql';
+/* ══ VISOR ══ */
+function abrirVisor(key, idx) {
+  const data = pdfs[key]; if (!data) return;
+  const item = Array.isArray(data) ? data[idx] : data;
+  const esImg = item.tipo === 'imagen';
+  const ext = item.archivo.split('.').pop().toLowerCase();
+  const esSql = ext === 'sql';
 
-  document.getElementById('visorTitulo').textContent=item.titulo;
-  document.getElementById('btnDescargar').href=item.archivo;
-  const iframe=document.getElementById('iframePDF');
-  const img=document.getElementById('visorImagen');
-  const icono=document.getElementById('visorIcono');
+  document.getElementById('visorTitulo').textContent = item.titulo;
+  document.getElementById('btnDescargar').href = item.archivo;
 
-  if(esImg){
-    iframe.style.display='none';iframe.src='';
-    img.src=item.archivo;img.style.display='block';
-    icono.className='fas fa-image';
-  } else if(esSql){
-    img.style.display='none';img.src='';
-    iframe.src=item.archivo;iframe.style.display='block';
-    icono.className='fas fa-database';
+  const iframe = document.getElementById('iframePDF');
+  const img    = document.getElementById('visorImagen');
+  const sql    = document.getElementById('visorSQL');
+  const icono  = document.getElementById('visorIcono');
+
+  /* resetear todos los visores */
+  iframe.style.display = 'none'; iframe.src = '';
+  img.style.display    = 'none'; img.src = '';
+  sql.style.display    = 'none'; sql.textContent = '';
+
+  if (esImg) {
+    img.src = item.archivo;
+    img.style.display = 'block';
+    icono.className = 'fas fa-image';
+
+  } else if (esSql) {
+    icono.className = 'fas fa-database';
+    sql.style.display = 'block';
+    sql.textContent = 'Cargando...';
+    fetch(item.archivo)
+      .then(r => {
+        if (!r.ok) throw new Error('No se pudo cargar el archivo');
+        return r.text();
+      })
+      .then(txt => { sql.textContent = txt; })
+      .catch(() => { sql.textContent = '⚠  No se pudo cargar el archivo SQL.\nAsegúrate de que el archivo existe en el servidor.'; });
+
   } else {
-    img.style.display='none';img.src='';
-    iframe.src=item.archivo;iframe.style.display='block';
-    icono.className='fas fa-file-pdf';
+    iframe.src = item.archivo;
+    iframe.style.display = 'block';
+    icono.className = 'fas fa-file-pdf';
   }
 
-  const v=document.getElementById('visorPDF');
-  v.style.display='flex';v.style.flexDirection='column';
-  setTimeout(()=>v.scrollIntoView({behavior:'smooth',block:'start'}),50);
+  const v = document.getElementById('visorPDF');
+  v.style.display = 'flex'; v.style.flexDirection = 'column';
+  setTimeout(() => v.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 }
 
-function cerrarVisor(){
-  const v=document.getElementById('visorPDF');
-  v.style.display='none';
-  document.getElementById('iframePDF').src='';
-  document.getElementById('visorImagen').src='';
-  document.getElementById('visorImagen').style.display='none';
-  document.getElementById('iframePDF').style.display='block';
+function cerrarVisor() {
+  const v = document.getElementById('visorPDF');
+  v.style.display = 'none';
+  document.getElementById('iframePDF').src = '';
+  document.getElementById('iframePDF').style.display = 'block';
+  document.getElementById('visorImagen').src = '';
+  document.getElementById('visorImagen').style.display = 'none';
+  document.getElementById('visorSQL').style.display = 'none';
+  document.getElementById('visorSQL').textContent = '';
 }
 
 function cerrarSesion(){localStorage.removeItem('usuario');window.location.href='login.html';}

@@ -788,7 +788,11 @@ function generarSemanas(n){
     const data=pdfs[key];
     const tiene=data!==undefined;
     const esArr=Array.isArray(data);
-    const ss=i.toString().padStart(2,'0');
+
+    /* ── ÚNICO CAMBIO: número de semana secuencial global ── */
+    const semanaGlobal = (n - 1) * 4 + i;
+    const ss = semanaGlobal.toString().padStart(2,'0');
+
     if(tiene)disponibles++;
 
     /* badge */
@@ -800,8 +804,8 @@ function generarSemanas(n){
     let desc='Sin contenido aún';
     if(tiene){
       if(esArr){
-        const n=data.length;
-        desc=`${n} archivo${n!==1?'s':''} disponible${n!==1?'s':''}`;
+        const n2=data.length;
+        desc=`${n2} archivo${n2!==1?'s':''} disponible${n2!==1?'s':''}`;
       } else {desc=data.titulo;}
     }
 

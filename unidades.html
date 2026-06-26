@@ -706,62 +706,62 @@ function draw(){
 draw();
 
 /* ══ DATOS PDF ══ */
-const pdfs={
-  'u1s1':{archivo:'unidad01semana01.pdf',titulo:'Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos'},
-  'u1s2':[
-    {archivo:'Analisis_Tecnico.pdf',titulo:'Análisis Técnico'},
-    {archivo:'Diagrama.pdf',titulo:'Diagrama ER'},
-    {archivo:'Manual de Instalacion SQL.pdf',titulo:'Manual de Instalación SQL'}
+const pdfs = {
+  'u1s1': {archivo:'unidad01semana01.pdf', titulo:'Informe Técnico Comparativo sobre Arquitecturas de Bases de Datos'},
+  'u1s2': [
+    {archivo:'Analisis_Tecnico.pdf',              titulo:'Análisis Técnico'},
+    {archivo:'Diagrama.pdf',                       titulo:'Diagrama ER'},
+    {archivo:'Manual de Instalacion SQL.pdf',      titulo:'Manual de Instalación SQL'}
   ],
-  'u1s3':[
-    {archivo:'Arquitecturadebasededatos.pdf',titulo:'Arquitectura de Base de Datos Relacional'},
-    {archivo:'Preguntas.pdf',titulo:'Preguntas'},
-    {archivo:'MODELADO Y NORMALIZACION DE BASE DE DATOS.pdf',titulo:'Modelado y Normalización de BD'}
+  'u1s3': [
+    {archivo:'Arquitecturadebasededatos.pdf',                       titulo:'Arquitectura de Base de Datos Relacional'},
+    {archivo:'Preguntas.pdf',                                        titulo:'Preguntas'},
+    {archivo:'MODELADO Y NORMALIZACION DE BASE DE DATOS.pdf',       titulo:'Modelado y Normalización de BD'}
   ],
-  'u1s4':[
-    {archivo:'ARQUITECTURA DE BASE DE DATOS .pdf',titulo:'Arquitecturas de Base de Datos'},
-    {archivo:'MODELO .pdf',titulo:'Modelo de Base de Datos'}
+  'u1s4': [
+    {archivo:'ARQUITECTURA DE BASE DE DATOS .pdf', titulo:'Arquitecturas de Base de Datos'},
+    {archivo:'MODELO .pdf',                         titulo:'Modelo de Base de Datos'}
   ],
-  'u2s1':[
-    {archivo:'NORMALIZACION DE FICHA INVENTARIO.pdf',titulo:'Normalización de Ficha Inventario'},
-    {archivo:'Introduccion a SQL.pdf',titulo:'Introducción a SQL Server 2022'}
+  'u2s1': [
+    {archivo:'NORMALIZACION DE FICHA INVENTARIO.pdf', titulo:'Normalización de Ficha Inventario'},
+    {archivo:'Introduccion a SQL.pdf',                 titulo:'Introducción a SQL Server 2022'}
   ],
-  'u2s2':[
-    {archivo:'Tablas de Microsoft SQL Server.pdf',titulo:'Tablas de Microsoft SQL Server'},
-    {archivo:'Creacion de la base de datos.sql',titulo:'Creación de la Base de Datos'},
-    {archivo:'Creacion de las tablas.sql',titulo:'Creación de las Tablas'},
-    {archivo:'Insertar datos.sql',titulo:'Insertar Datos'}
+  'u2s2': [
+    {archivo:'Tablas de Microsoft SQL Server.pdf', titulo:'Tablas de Microsoft SQL Server'},
+    {archivo:'Creacion de la base de datos.sql',   titulo:'Creación de la Base de Datos'},
+    {archivo:'Creacion de las tablas.sql',         titulo:'Creación de las Tablas'},
+    {archivo:'Insertar datos.sql',                 titulo:'Insertar Datos'}
   ],
-  'u2s3':[
-    {archivo:'Operaciones de Mantenimiento de Datos.pdf',titulo:'Operaciones de Mantenimiento de Datos'},
-    {archivo:'Consultas.sql',titulo:'Consultas'},
-    {archivo:'Informe de las consultas.pdf',titulo:'Informe de las Consultas'},
-    {archivo:'Explicacion de las 30 consultas.pdf',titulo:'Explicación de las 30 Consultas'}
+  'u2s3': [
+    {archivo:'Operaciones de Mantenimiento de Datos.pdf', titulo:'Operaciones de Mantenimiento de Datos'},
+    {archivo:'Consultas.sql',                              titulo:'Consultas'},
+    {archivo:'Informe de las consultas.pdf',               titulo:'Informe de las Consultas'},
+    {archivo:'Explicacion de las 30 consultas.pdf',        titulo:'Explicación de las 30 Consultas'}
   ],
-   'u2s4':[
-    {archivo:'Introduccion a Consultas.pdf',titulo:'Introducción a Consultas'}
+  'u2s4': [
+    {archivo:'Introduccion a Consultas.pdf', titulo:'Introducción a Consultas'}
   ],
-  'u3s1':[                                          // ← agrega aquí
-    {archivo:'REGLAMENTO GENERAL.pdf', titulo:'REGLAMENTO GENERAL'},
-    {archivo:'Vistas (Views) en SQL Server.pdf', titulo:'Vistas en SQL Server'},
-    {archivo:'Funciones en SQL Server.pdf', titulo:'Funciones en SQL Server'},
-    {archivo:'Esquemas (Schemas) en SQL Server.pdf', titulo:'Esquemas en SQL Server'},
-    {archivo:'Índices (Indexes) en SQL Server.pdf', titulo:'Índices en SQL Server'},
-    {archivo:'Store Procedures en SQL Server.pdf', titulo:'Store Procedures en SQL Server'},
+  'u3s1': [
+    {archivo:'REGLAMENTO GENERAL.pdf',                   titulo:'REGLAMENTO GENERAL'},
+    {archivo:'Vistas (Views) en SQL Server.pdf',          titulo:'Vistas en SQL Server'},
+    {archivo:'Funciones en SQL Server.pdf',               titulo:'Funciones en SQL Server'},
+    {archivo:'Esquemas (Schemas) en SQL Server.pdf',      titulo:'Esquemas en SQL Server'},
+    {archivo:'Índices (Indexes) en SQL Server.pdf',       titulo:'Índices en SQL Server'},
+    {archivo:'Store Procedures en SQL Server.pdf',        titulo:'Store Procedures en SQL Server'}
   ],
-   'u3s2':[
-    {archivo:'ManualMicrosoftAzure.pdf', titulo:'Manual de Microsoft Azure'},
-    {archivo:'Infografia semana 10.pdf', titulo:'Infografias semana 10'},
-    {archivo:'Semana10 Resolución de Casos Prácticos.pdf', titulo:'Semana 10 Resolución de Casos Prácticos'},
+  'u3s2': [
+    {archivo:'ManualMicrosoftAzure.pdf',                          titulo:'Manual de Microsoft Azure'},
+    {archivo:'Infografia semana 10.pdf',                           titulo:'Infografias semana 10'},
+    {archivo:'Semana10 Resolución de Casos Prácticos.pdf',         titulo:'Semana 10 Resolución de Casos Prácticos'}
   ],
-   'u3s3':[
-    {archivo:'Infografia semana 11.pdf', titulo:'Infografias semana 11'},
-    {archivo:'Semana11 Resolución de Casos Prácticos.pdf', titulo:'Semana 11 Resolución de Casos Prácticos'},
- ],
-   'u3s4':[
-    {archivo:'Infografia semana 12.pdf', titulo:'Infografias semana 12'},
-    {archivo:'Semana12 Resolución de Casos Prácticos.pdf', titulo:'Semana 12 Resolución de Casos Prácticos'},
-      ]
+  'u3s3': [
+    {archivo:'Infografia semana 11.pdf',                           titulo:'Infografias semana 11'},
+    {archivo:'Semana11 Resolución de Casos Prácticos.pdf',         titulo:'Semana 11 Resolución de Casos Prácticos'}
+  ],
+  'u3s4': [
+    {archivo:'Infografia semana 12.pdf',                           titulo:'Infografias semana 12'},
+    {archivo:'Semana12 Resolución de Casos Prácticos.pdf',         titulo:'Semana 12 Resolución de Casos Prácticos'}
+  ]
 };
 
 const unidadInfo={
@@ -810,18 +810,15 @@ function generarSemanas(n){
     const tiene=data!==undefined;
     const esArr=Array.isArray(data);
 
-    /* ── ÚNICO CAMBIO: número de semana secuencial global ── */
     const semanaGlobal = (n - 1) * 4 + i;
     const ss = semanaGlobal.toString().padStart(2,'0');
 
     if(tiene)disponibles++;
 
-    /* badge */
     const badgeHTML=tiene
       ?`<span class="badge-disponible"><i class="fas fa-circle" style="font-size:.38rem"></i>&nbsp;Disponible</span>`
       :`<span class="badge-pronto"><i class="fas fa-clock"></i>&nbsp;Próximamente</span>`;
 
-    /* descripción */
     let desc='Sin contenido aún';
     if(tiene){
       if(esArr){
@@ -830,7 +827,6 @@ function generarSemanas(n){
       } else {desc=data.titulo;}
     }
 
-    /* botones */
     let botonesHTML='';
     if(tiene){
       if(esArr){
@@ -901,7 +897,6 @@ function abrirVisor(key, idx) {
   const sql    = document.getElementById('visorSQL');
   const icono  = document.getElementById('visorIcono');
 
-  /* resetear todos los visores */
   iframe.style.display = 'none'; iframe.src = '';
   img.style.display    = 'none'; img.src = '';
   sql.style.display    = 'none'; sql.textContent = '';
@@ -910,7 +905,6 @@ function abrirVisor(key, idx) {
     img.src = item.archivo;
     img.style.display = 'block';
     icono.className = 'fas fa-image';
-
   } else if (esSql) {
     icono.className = 'fas fa-database';
     sql.style.display = 'block';
@@ -922,7 +916,6 @@ function abrirVisor(key, idx) {
       })
       .then(txt => { sql.textContent = txt; })
       .catch(() => { sql.textContent = '⚠  No se pudo cargar el archivo SQL.\nAsegúrate de que el archivo existe en el servidor.'; });
-
   } else {
     iframe.src = item.archivo;
     iframe.style.display = 'block';

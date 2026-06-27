@@ -940,7 +940,12 @@ function cerrarVisor() {
 
 function cerrarSesion(){localStorage.removeItem('usuario');window.location.href='login.html';}
 
-window.onload=()=>mostrarUnidad(1);
+window.onload=()=>{
+  const params = new URLSearchParams(window.location.search);
+  let num = parseInt(params.get('unidad'), 10);
+  if (![1,2,3,4].includes(num)) num = 1; // valor por defecto si no viene o es inválido
+  mostrarUnidad(num);
+};
 
 /* ══ CURSOR ══ */
 const dot=document.getElementById('cursorDot');
